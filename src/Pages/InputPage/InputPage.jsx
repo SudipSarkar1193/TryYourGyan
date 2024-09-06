@@ -259,16 +259,20 @@ const InputPage = () => {
           )}
         </form>
         {isAuthLoading && <Loader2 />}{" "}
-        {!isAuthSuccess && !isAuthLoading && (
-          <button
-            className="max-w-full btn outline outline-1 outline-slate-600 mt-1"
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            Please Log in first
-          </button>
-        )}
+        {!isAuthSuccess &&
+          !isAuthLoading &&
+          isAuthError &&
+          authError &&
+          !authUser && (
+            <button
+              className="max-w-full btn outline outline-1 outline-slate-600 mt-1"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Please Log in first
+            </button>
+          )}
       </div>
     </div>
   );
