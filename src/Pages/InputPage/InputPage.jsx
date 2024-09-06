@@ -146,12 +146,12 @@ const InputPage = () => {
   console.log("authUser : ", authUser);
 
   console.log(
-    " =>>>>>>>>>>>>>?",
-    !isAuthSuccess,
-    !isAuthLoading,
+    " isAuthSuccess,isAuthLoading,isAuthError,authError,authUser",
+    isAuthSuccess,
+    isAuthLoading,
     isAuthError,
     authError,
-    !authUser
+    authUser
   );
 
   if (loading) {
