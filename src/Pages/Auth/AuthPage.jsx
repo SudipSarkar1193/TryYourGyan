@@ -6,7 +6,6 @@ import RegisterForm from "./RegisterForm";
 const AuthPage = ({ isLoginPage = true }) => {
   return (
     <div className="flex flex-col lg:flex-row items-center lg:justify-evenly w-full h-[85%] gap-4 lg:gap-0">
-      <Banner />
       {isLoginPage && <LoginForm />}
       {!isLoginPage && <RegisterForm />}
     </div>
