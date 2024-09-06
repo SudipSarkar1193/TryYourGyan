@@ -14,7 +14,7 @@ const InputPage = () => {
   const [difficulty, setDifficulty] = useState("Easy");
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
-  const [doneAuth, setDoneAuth] = useState(false);
+  
 
   const [quizData, setQuizData] = useState(null);
 
@@ -92,7 +92,7 @@ const InputPage = () => {
   } = useQuery({
     queryKey: ["userAuth"],
     queryFn: async () => {
-      console.log("${backendServer}/api/auth/me");
+      console.log(`${backendServer}/api/auth/me`);
       const res = await fetch(`${backendServer}/api/auth/me`, {
         method: "GET",
         headers: {
@@ -269,7 +269,7 @@ const InputPage = () => {
             <button
               className="max-w-full btn outline outline-1 outline-slate-600 mt-1"
               onClick={() => {
-                navigate("/login", { state: { setDoneAuth: setDoneAuth } });
+                navigate("/login");
               }}
             >
               Please Log in first
