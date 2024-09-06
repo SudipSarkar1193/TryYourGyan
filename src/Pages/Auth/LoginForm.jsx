@@ -54,11 +54,11 @@ const LoginForm = () => {
         throw error;
       }
     },
-    onSuccess: (jsonRes) => {
+    onSuccess: async (jsonRes) => {
       console.log("Hir");
       console.log("jsonRes", jsonRes);
       toast.success(jsonRes.message);
-      queryClient.invalidateQueries({ queryKey: ["userAuth"] });
+      await queryClient.invalidateQueries({ queryKey: ["userAuth"] });
       navigate("/");
     },
     onError: (error) => {

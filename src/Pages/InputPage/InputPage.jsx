@@ -96,10 +96,8 @@ const InputPage = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          
         },
         credentials: "include",
-        
       });
 
       if (!res.ok) {
@@ -251,7 +249,7 @@ const InputPage = () => {
             />
             <div className="mt-1 text-lg">{value}</div>
           </div>
-          {authUser && (
+          {isAuthSuccess && (
             <button
               type="submit"
               className="btn outline outline-1 outline-slate-600 mt-1"
@@ -260,11 +258,7 @@ const InputPage = () => {
             </button>
           )}
         </form>
-        {isAuthLoading && (
-          <button className="max-w-full btn  outline outline-1 outline-slate-600 mt-1">
-            Please wait...
-          </button>
-        )}{" "}
+        {isAuthLoading && <Loader2 />}{" "}
         {isAuthError && !isAuthLoading && (
           <button
             className="max-w-full btn outline outline-1 outline-slate-600 mt-1"

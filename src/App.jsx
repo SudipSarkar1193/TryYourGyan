@@ -30,7 +30,7 @@ export function App() {
         <Route path="/response-history" element={<Response />} />
       </Routes>
       
-      {location.pathname !== '/quiz' && location.pathname !== '/response-history' && location.pathname !=='/' && <Footer />}
+      
     </div>
   );
 }
