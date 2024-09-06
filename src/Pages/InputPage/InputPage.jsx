@@ -115,6 +115,9 @@ const InputPage = () => {
       console.log("auth : ", jsonRes);
       return jsonRes;
     },
+    cacheTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
+    retry: false,
   });
 
   const handleRangeInputChange = (e) => {
