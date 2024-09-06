@@ -1,0 +1,1 @@
+export const backendServer = "https://ai-powered-quiz-app-backend.onrender.com"
