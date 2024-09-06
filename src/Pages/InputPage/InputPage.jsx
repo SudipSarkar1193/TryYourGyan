@@ -14,6 +14,7 @@ const InputPage = () => {
   const [difficulty, setDifficulty] = useState("Easy");
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
+  const [doneAuth, setDoneAuth] = useState(false);
 
   const [quizData, setQuizData] = useState(null);
 
@@ -263,11 +264,12 @@ const InputPage = () => {
           !isAuthLoading &&
           isAuthError &&
           authError &&
-          !authUser && (
+          !authUser &&
+          !doneAuth && (
             <button
               className="max-w-full btn outline outline-1 outline-slate-600 mt-1"
               onClick={() => {
-                navigate("/login");
+                navigate("/login", { state: { setDoneAuth: setDoneAuth } });
               }}
             >
               Please Log in first

@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { backendServer } from "../../backendServer";
 
-const LoginForm = () => {
+const LoginForm = ({ setDoneAuth }) => {
   const [formData, setFormData] = useState({
     usernameOrEmail: "",
     password: "",
@@ -57,7 +57,9 @@ const LoginForm = () => {
     onSuccess: async (jsonRes) => {
       console.log("Hir");
       console.log("jsonRes", jsonRes);
+      setDoneAuth(true);
       toast.success(jsonRes.message);
+
       await queryClient.invalidateQueries({ queryKey: ["userAuth"] });
       navigate("/");
     },
