@@ -14,7 +14,6 @@ const InputPage = () => {
   const [difficulty, setDifficulty] = useState("Easy");
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
-  
 
   const [quizData, setQuizData] = useState(null);
 
@@ -132,20 +131,27 @@ const InputPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Inside of handleSubmit");
-    console.log(value, difficulty, topic);
     mutate(); // Trigger the mutation
   };
 
-  console.log(loading, isAuthError, authError);
+  console.log(
+    "loading, isAuthError, authError",
+    loading,
+    isAuthError,
+    authError
+  );
   console.log("authUser : ", authUser);
 
-  if (isAuthError) {
-    console.log("NAGMAAAAA");
-  }
+  console.log(
+    " =>>>>>>>>>>>>>?",
+    !isAuthSuccess,
+    !isAuthLoading,
+    isAuthError,
+    authError,
+    !authUser
+  );
 
   if (loading) {
-    console.log("isLoading");
     return (
       <div className="w-full  max-h-full flex flex-col items-center justify-start bg-inherit overflow-hidden gap-6">
         <div className="text-2xl font-bold italic text-center mt-28 lg:mt-40">
@@ -264,8 +270,7 @@ const InputPage = () => {
           !isAuthLoading &&
           isAuthError &&
           authError &&
-          !authUser &&
-          !doneAuth && (
+          !authUser && (
             <button
               className="max-w-full btn outline outline-1 outline-slate-600 mt-1"
               onClick={() => {
