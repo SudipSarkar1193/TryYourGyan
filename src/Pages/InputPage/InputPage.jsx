@@ -259,7 +259,7 @@ const InputPage = () => {
           )}
         </form>
         {isAuthLoading && <Loader2 />}{" "}
-        {!isAuthSuccess && (
+        {!isAuthSuccess && !isAuthLoading && (
           <button
             className="max-w-full btn outline outline-1 outline-slate-600 mt-1"
             onClick={() => {
