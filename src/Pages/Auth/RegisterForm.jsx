@@ -40,7 +40,7 @@ const RegisterForm = () => {
         });
         const resData = await res.json();
         if (!res.ok)
-          throw new Error(resData.message || "Failed to create account");
+          throw new Error(resData.error || "Failed to create account");
 
         return { resData, username };
       } catch (error) {

@@ -47,7 +47,7 @@ const LoginForm = () => {
         const jsonRes = await res.json();
 
         if (!res.ok) {
-          throw new Error(jsonRes.message || "Failed to Log in");
+          throw new Error(jsonRes.error || "Failed to Log in");
         }
         return jsonRes;
       } catch (error) {
@@ -55,15 +55,13 @@ const LoginForm = () => {
       }
     },
     onSuccess: async (jsonRes) => {
-      console.log("Hir");
-      console.log("jsonRes", jsonRes);
       toast.success(jsonRes.message);
 
       await queryClient.invalidateQueries({ queryKey: ["userAuth"] });
       navigate("/");
     },
     onError: (error) => {
-      console.error(error.message);
+      console.error(error);
       toast.error(error.message);
     },
   });
