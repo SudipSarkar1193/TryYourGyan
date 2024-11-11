@@ -66,7 +66,7 @@ const LoginForm = () => {
       localStorage.setItem("refreshToken", jsonRes.data.refresh_token);
       localStorage.setItem("username", jsonRes.data.username);
 
-      toast.success(jsonRes.message);
+      
       
       await queryClient.invalidateQueries({ queryKey: ["userAuth"] });
       navigate("/");
