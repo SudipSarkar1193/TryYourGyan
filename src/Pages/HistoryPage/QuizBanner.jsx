@@ -75,7 +75,7 @@ const QuizBanner = ({ title, score, totalQuestions, level, id, date }) => {
           {truncateTitle(title, maxChars)}
         </h1>
 
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex w-full justify-around items-center ">
           <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-600">
             {formattedDate}
           </h1>
