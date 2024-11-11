@@ -2,9 +2,23 @@ import React from "react";
 import Score from "./Score";
 import { useNavigate } from "react-router-dom";
 
-const QuizBanner = ({ title, score, totalQuestions, level, id ,date}) => {
+const formatDateAndTime = (dateString) => {
+  const date = new Date(dateString);
+
+  const optionsDate = { year: "numeric", month: "long", day: "numeric" };
+  const formattedDate = date.toLocaleDateString("en-US", optionsDate); // Example: November 11, 2024
+
+  const optionsTime = { hour: "numeric", minute: "numeric", hour12: true }; // 12-hour format
+  const formattedTime = date.toLocaleTimeString("en-US", optionsTime); // Example: 1:00 PM
+
+  return { formattedDate, formattedTime };
+};
+
+const QuizBanner = ({ title, score, totalQuestions, level, id, date }) => {
   const maxChars = 20;
   const navigate = useNavigate();
+
+  const { formattedDate, formattedTime } = formatDateAndTime(date);
 
   const InfoComponent = ({ show = false }) => (
     <div
@@ -60,8 +74,15 @@ const QuizBanner = ({ title, score, totalQuestions, level, id ,date}) => {
         >
           {truncateTitle(title, maxChars)}
         </h1>
-        <br/>
-        <h1>{date}</h1>
+
+        <div className="flex flex-col sm:flex-row gap-2">
+          <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-600">
+            {formattedDate}
+          </h1>
+          <h2 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-400">
+            {formattedTime}
+          </h2>
+        </div>
 
         <InfoComponent />
       </div>
