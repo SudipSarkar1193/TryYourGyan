@@ -26,12 +26,11 @@ const QuizHistory = () => {
       });
 
       if (!response.ok) {
-        
         throw new Error("Failed to fetch quizzes");
       }
 
       const data = await response.json();
-     
+
       setQuizData(data.data || []);
     } catch (err) {
       setError(err.message);
@@ -89,7 +88,12 @@ const QuizHistory = () => {
           <p className="text-red-500">{error}</p>
         ) : quizData.length === 0 ? (
           <div className="w-full h-full flex justify-center items-center">
-            <p className="btn">No quizzes available.</p>
+            <p className="text-2xl font-bold italic text-center ">
+              No quizzes available.
+            </p>
+            <button className="btn" onClick={() => navigate("/")}>
+              Back to the Home page
+            </button>
           </div>
         ) : (
           quizData.map((quiz) => (
