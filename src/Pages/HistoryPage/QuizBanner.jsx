@@ -76,10 +76,10 @@ const QuizBanner = ({ title, score, totalQuestions, level, id, date }) => {
         </h1>
 
         <div className="flex w-full justify-around items-center ">
-          <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-600">
+          <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-400">
             {formattedDate}
           </h1>
-          <h2 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-400">
+          <h2 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-300">
             {formattedTime}
           </h2>
         </div>
