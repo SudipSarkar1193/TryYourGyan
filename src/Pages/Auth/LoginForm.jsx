@@ -123,7 +123,7 @@ const LoginForm = () => {
             </a>
           </div> */}
         </div>
-        <button className="sign  outline outline-1 outline-slate-600 mt-5">
+        <button className="sign  outline outline-1 outline-slate-600 mt-5 transition-transform duration-150 active:scale-105 ">
           Sign in
         </button>
       </form>
@@ -135,14 +135,14 @@ const LoginForm = () => {
       <div className=" flex justify-center">
         <button
           aria-label="Log in with Google"
-          className="bg-btnColor text-btnTextColor font-semibold rounded-lg p-2 text-lg w-full outline outline-1 outline-slate-600 my-3"
+          className="bg-btnColor text-btnTextColor font-semibold rounded-lg p-2 text-lg w-full outline outline-1 outline-slate-600 my-3 transition-transform duration-150 active:scale-105"
         >
           sign in with <FcGoogle size={25} className="inline-block" />
         </button>
       </div>
       <p className="signup">
         Don&apos;t have an account?
-        <span className="ml-2" onClick={() => navigate("/signup")}>
+        <span className="ml-2 transition-transform duration-150 active:scale-105" onClick={() => navigate("/signup")}>
           Sign up
         </span>
       </p>

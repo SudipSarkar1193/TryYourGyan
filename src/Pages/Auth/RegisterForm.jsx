@@ -100,7 +100,7 @@ const RegisterForm = () => {
         </div>
 
         <button
-          className="sign  outline outline-1 outline-slate-600 mt-5"
+          className="sign  outline outline-1 outline-slate-600 mt-5 transition-transform duration-150 active:scale-105"
           onChange={handleInputChange}
         >
           Sign up
@@ -109,7 +109,7 @@ const RegisterForm = () => {
 
       <p className="signup mt-5">
         Alraedy have an account?
-        <a rel="noopener noreferrer" href="#" className="ml-2">
+        <a rel="noopener noreferrer" href="#" className="ml-2 transition-transform duration-150 active:scale-105" onClick={()=>navigate("/login")}>
           Sign in
         </a>
       </p>
