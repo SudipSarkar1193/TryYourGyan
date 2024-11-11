@@ -29,8 +29,8 @@ const RegisterForm = () => {
   } = useMutation({
     mutationFn: async ({ email, username, password }) => {
       try {
-        console.log("+++", username, email, password);
-        const res = await fetch(`${backendServer}/api/auth/signup`, {
+        
+        const res = await fetch(`${backendServer}/api/users/new`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const RegisterForm = () => {
         className="form"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log("formData", formData);
+          
           signup(formData);
         }}
       >

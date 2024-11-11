@@ -1,25 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ResponseQuestion } from "./ResponseQuestion";
 import { useLocation } from "react-router-dom";
 import ScoreCard from "./ScoreCard";
+import { useMutation } from "@tanstack/react-query";
+import { backendServer } from "../../backendServer";
 
 const Response = () => {
   const location = useLocation();
-  const { questions, score } = location.state || {};
+  const { questions, score, quiz_id } = location.state || {};
+  const accessToken = localStorage.getItem("accessToken");
+
+  // Define a mutation to send questions to the backend
+  // const { mutate, isLoading, isError, error } = useMutation({
+  //   mutationFn:
+  
+  // mutate({ questions, quiz_id });
+   
+
   return (
-    <div className="min-h-screen w-screen overflow-x-hidden app ">
-      {/* <div className="h-20 w-full flex items-center justify-center mt-14 mb-10 ">
-        <span className="ring ring-green-400 text-4xl font-bold p-5 rounded-full text-blue-600">
-          <span>{score}</span>/<span>{questions.length}</span>
-        </span>
-      </div> */}
-      <div className="w-full  overflow-x-hidden flex items-center justify-center">
-        {" "}
+    <div className="min-h-screen w-screen overflow-x-hidden app">
+      <div className="w-full overflow-x-hidden flex items-center justify-center">
         <ScoreCard score={score} total={questions.length} />
       </div>
-        <div className="text-xl font-bold italic text-center">Your Response History : </div>
+      <div className="text-xl font-bold italic text-center">Your Response History:</div>
       {questions.map((question, index) => (
-        <ResponseQuestion question={question} />
+        <ResponseQuestion key={index} question={question} />
       ))}
     </div>
   );

@@ -26,42 +26,53 @@ const LoginForm = () => {
   } = useMutation({
     mutationFn: async ({ usernameOrEmail, password }) => {
       try {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        let username = null,
-          email = null;
-        if (emailRegex.test(usernameOrEmail)) {
-          email = usernameOrEmail;
-        } else {
-          username = usernameOrEmail;
-        }
-
-        const res = await fetch(`${backendServer}/api/auth/login`, {
+        const res = await fetch(`${backendServer}/api/users/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ username, email, password }),
+          body: JSON.stringify({ identifier: usernameOrEmail, password }),
         });
+
+        if (!res.ok) {
+          let errorMessage;
+          const contentType = res.headers.get("content-type");
+
+          if (contentType && contentType.includes("application/json")) {
+            const errorData = await res.json();
+            errorMessage =
+              errorData.errorMessage || errorData.body || "Unknown JSON error";
+          } else {
+            errorMessage = await res.text();
+          }
+
+          console.error(`Error: ${errorMessage} (status: ${res.status})`);
+
+          throw new Error(errorMessage);
+        }
 
         const jsonRes = await res.json();
 
-        if (!res.ok) {
-          throw new Error(jsonRes.error || "Failed to Log in");
-        }
         return jsonRes;
       } catch (error) {
+        error;
         throw error;
       }
     },
     onSuccess: async (jsonRes) => {
-      toast.success(jsonRes.message);
+      localStorage.setItem("accessToken", jsonRes.data.access_token);
+      localStorage.setItem("refreshToken", jsonRes.data.refresh_token);
+      localStorage.setItem("username", jsonRes.data.usename);
 
+      toast.success(jsonRes.message);
+      
       await queryClient.invalidateQueries({ queryKey: ["userAuth"] });
       navigate("/");
     },
     onError: (error) => {
       console.error(error);
+
       toast.error(error.message);
     },
   });
@@ -75,8 +86,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("in handleSubmit");
-    console.log("formData", formData);
+    
     login(formData);
   };
 

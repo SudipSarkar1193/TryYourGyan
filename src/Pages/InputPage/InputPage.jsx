@@ -29,12 +29,13 @@ const InputPage = () => {
     mutationFn: async () => {
       try {
         setLoading(true);
-        console.log("_-->>", topic, value, difficulty);
+        const accessToken = localStorage.getItem("accessToken");
 
-        const res = await fetch(`${backendServer}/api/quiz`, {
+        const res = await fetch(`${backendServer}/api/quiz/generate`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({
             topic,
@@ -52,29 +53,34 @@ const InputPage = () => {
         }
 
         const jsonRes = await res.json();
+        let data = null;
+        if (jsonRes) data = JSON.parse(jsonRes.data.Candidates[0].Content.Parts);
+        
         setLoading(false);
-        return jsonRes;
+        return data
+
       } catch (error) {
         throw error;
       }
     },
     onError: (error) => {
-      console.log("Error hit ! ! ! ");
+      
       console.error("Error:", error);
+
       navigate("/error", { state: { msg: "Error Generating the Quiz" } });
     },
-    onSuccess: (quizDataString) => {
-      let data = null;
-      if (quizDataString) data = JSON.parse(quizDataString);
-
+    onSuccess: (data) => {
+      
       if (data) {
         setQuizData(data);
-        console.log("quizData", data);
-        console.log("quizData[1]", data[1]);
-        // Navigate to QuizPage and pass quizData as state
-        if (data[0].ok) navigate("/quiz", { state: { quizData: data[1] } });
+        
+        // Navigate to QuizPage and pass quizData and other data as state
+        if (data[0]?.ok) {
+          navigate("/quiz", { state: { quizData: data[1], topic: topic , level :difficulty ,totalQuestions:value} });
+      }
+
         else if (!data[0].ok) {
-          console.log("!data[0].ok");
+         
           navigate("/error", { state: { msg: data[1] } });
         }
       }
@@ -91,28 +97,31 @@ const InputPage = () => {
   } = useQuery({
     queryKey: ["userAuth"],
     queryFn: async () => {
-      console.log(`${backendServer}/api/auth/me`);
+      
+  
+      // Retrieve the access token from localStorage
+      const accessToken = localStorage.getItem("accessToken");
+      
+  
       const res = await fetch(`${backendServer}/api/auth/me`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          // Include the access token in the Authorization header
+          Authorization: `Bearer ${accessToken}`,
         },
         credentials: "include",
       });
-
+  
       if (!res.ok) {
-        // const errorMessage = await res.text();
-        // throw new Error(errorMessage)
-
-        const errorText = await res.text(); // Get the error as text
-        const errorJsonString = errorText.replace("Error: ", ""); // Remove the 'Error: ' part
-        const errorMessage = JSON.parse(errorJsonString); // Parse the JSON string
-        throw errorMessage; // Throw the error as a JSON object
+        const errorText = await res.text();
+        const errorJsonString = errorText.replace("Error: ", "");
+        const errorMessage = JSON.parse(errorJsonString);
+        throw errorMessage;
       }
-
+  
       const jsonRes = await res.json();
-
-      console.log("auth : ", jsonRes);
+      
       return jsonRes;
     },
     cacheTime: 1000 * 60 * 10,
@@ -137,22 +146,7 @@ const InputPage = () => {
     mutate(); // Trigger the mutation
   };
 
-  console.log(
-    "loading, isAuthError, authError",
-    loading,
-    isAuthError,
-    authError
-  );
-  console.log("authUser : ", authUser);
-
-  console.log(
-    " isAuthSuccess,isAuthLoading,isAuthError,authError,authUser",
-    isAuthSuccess,
-    isAuthLoading,
-    isAuthError,
-    authError,
-    authUser
-  );
+  
 
   if (loading) {
     return (
@@ -170,12 +164,13 @@ const InputPage = () => {
         <div className="text-xl font-bold text-yellow-600 italic text-center mt-28 lg:mt-40">
           Developed by : Sudip Sarkar
         </div>
-      </div> ///Not working fix it
+      </div> 
     );
   }
 
   return (
     <div className=" flex flex-col lg:flex-row items-center lg:justify-around w-full  h-5/6 gap-4 overflow-hidden app">
+      
       <div className="w-4/6 lg:mt-0 lg:w-[40%] flex items-center justify-center flex-col">
         <div className="w-full m-6 h-8 bg-red flex items-center justify-center text-lg text-center lg:text-2xl lg:mt-16">
           What Topic Would You Like to take the Quiz On?

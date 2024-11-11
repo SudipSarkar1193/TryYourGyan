@@ -28,3 +28,8 @@
     -webkit-text-fill-color: transparent;
     
 }
+
+
+.modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.9); /* Fully opaque background */
+}
