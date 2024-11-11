@@ -103,7 +103,7 @@ const QuizHistory = () => {
                 totalQuestions={quiz.totalQuestions}
                 level={quiz.level}
                 id={quiz.id}
-                created_at={quiz.created_at}
+                date={quiz.created_at}
               />
             </div>
           ))

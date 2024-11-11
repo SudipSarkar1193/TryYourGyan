@@ -2,7 +2,7 @@ import React from "react";
 import Score from "./Score";
 import { useNavigate } from "react-router-dom";
 
-const QuizBanner = ({ title, score, totalQuestions, level, id }) => {
+const QuizBanner = ({ title, score, totalQuestions, level, id ,date}) => {
   const maxChars = 20;
   const navigate = useNavigate();
 
@@ -60,6 +60,8 @@ const QuizBanner = ({ title, score, totalQuestions, level, id }) => {
         >
           {truncateTitle(title, maxChars)}
         </h1>
+        <br/>
+        <h1>{date}</h1>
 
         <InfoComponent />
       </div>
