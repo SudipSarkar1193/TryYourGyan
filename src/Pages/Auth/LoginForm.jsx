@@ -61,6 +61,7 @@ const LoginForm = () => {
       }
     },
     onSuccess: async (jsonRes) => {
+      console.log(jsonRes)
       localStorage.setItem("accessToken", jsonRes.data.access_token);
       localStorage.setItem("refreshToken", jsonRes.data.refresh_token);
       localStorage.setItem("username", jsonRes.data.usename);
