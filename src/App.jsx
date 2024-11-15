@@ -21,6 +21,11 @@ import Questions from "./Pages/HistoryPage/Questions";
 export function App() {
   const location = useLocation();
 
+  useEffect(() => {
+    // Set the theme on initial load
+    document.documentElement.setAttribute("data-theme", "dark");
+  }, []);
+
   return (
     <div className="app h-svh w-svw bg-red-200">
       {/* Conditionally render the Header based on the route */}

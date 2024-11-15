@@ -7,6 +7,7 @@ import { backendServer } from "../../backendServer";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { LoaderWithText } from "../Common/LoaderWithText";
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -26,6 +27,8 @@ const RegisterForm = () => {
     mutate: signup,
     isError,
     isPending,
+    isLoading,
+    
   } = useMutation({
     mutationFn: async ({ email, username, password }) => {
       try {
@@ -103,7 +106,11 @@ const RegisterForm = () => {
           className="sign  outline outline-1 outline-slate-600 mt-5 transition-transform duration-150 active:scale-105"
           onChange={handleInputChange}
         >
-          Sign up
+         {isLoading || isPending ? (
+            <LoaderWithText text={"Signing up..."} />
+          ) : (
+            "Sign up"
+          )}
         </button>
       </form>
 
