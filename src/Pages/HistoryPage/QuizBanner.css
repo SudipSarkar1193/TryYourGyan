@@ -1,0 +1,98 @@
+/* QuizBanner.css */
+.quiz-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #1de91a;
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    width: 100%;
+    max-width: 200px; /* Reduce overall width to make the component smaller */
+    margin: 0 auto;
+  }
+  
+  .score-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Circle styling */
+  .scorebox {
+    position: relative;
+    background-color: #c4118f;
+    width: 7.5vw; /* 50% of the original size, 7.5% of viewport width */
+    height: 7.5vw; /* 50% of the original size */
+    max-width: 60px; /* Maximum size */
+    max-height: 60px; /* Maximum size */
+    min-width: 40px; /* Minimum size for mobile */
+    min-height: 40px; /* Minimum size for mobile */
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem; /* Adjust font size accordingly */
+    box-shadow: 5px 5px 5px black;
+  }
+  
+  /* Horizontal line inside the circle */
+  .separator {
+    position: absolute;
+    width: 70%;
+    height: 2px;
+    background-color: #fdfdfd;
+    top: 50%;
+    left: 50%;
+    /* margin:1px 0; */
+    transform: translate(-50%, -50%);
+  }
+  
+  /* Score text at the top inside the circle */
+  .score-text-top {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fdfdfd;
+   /* Adjust font size for smaller numbers */
+    
+  }
+  
+  /* Total text at the bottom inside the circle */
+  .score-text-bottom {
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fdfdfd;
+    /* Adjust font size for smaller numbers */
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .scorebox {
+      width: 15vw; /* Increase size slightly for tablets */
+      height: 15vw;
+      min-width: 70px; /* Ensure it doesn't get too small */
+      min-height: 70px;
+    }
+  
+   
+
+  }
+  
+  @media (max-width: 480px) {
+    .scorebox {
+      width: 20vw; /* Increase size slightly for mobile */
+      height: 20vw;
+      min-width: 60px; /* Ensure it's still small enough */
+      min-height: 60px;
+    }
+  
+  
+
+  }
+  

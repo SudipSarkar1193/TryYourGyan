@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app{
+  background: linear-gradient(135deg, #000000, #140125 );
+  color: #c9d1d9; /* Light gray for text */
+ } 
+
+
+ .custom-height-1 {
+  height: calc(100svh - 1.75rem);
+}
+
+.option-btn{
+  background-color: #150b1f;
+}
+
+.header{
+    background-image: linear-gradient(to right, #48cf95, #E85C0D); 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+}
+
+
+.modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.9); /* Fully opaque background */
+}
