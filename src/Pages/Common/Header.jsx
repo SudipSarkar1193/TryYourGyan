@@ -12,7 +12,10 @@ export const Header = () => {
         </Link>
       </div>
 
-      <div className=" lg:w-36 lg:h-36  block ring rounded-full w-20 h-20 bg-inherit my-4">
+      <div
+        className=" lg:w-36 lg:h-36  block ring rounded-full w-20 h-20 bg-inherit my-4"
+        onClick={() => navigate("/")}
+      >
         <img
           src="./undraw_questions_re_1fy7.svg"
           className="w-full aspect-[3/2] object-contain shadow-"
