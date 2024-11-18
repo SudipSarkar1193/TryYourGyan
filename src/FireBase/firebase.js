@@ -17,6 +17,8 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MES_ID,
 };
 
+
+
 /*
 const firebaseConfig = {
   
@@ -32,16 +34,25 @@ const provider = new GoogleAuthProvider();
 
 export const signInWithGoogleAndGetUserInfo = async () => {
   const result = await signInWithPopup(auth, provider);
-  console.log("Firebase Res", result);
-  //const isNewUser = result.additionalUserInfo?.isNewUser;
-  const isNewUser = result.additionalUserInfo?.isNewUser;
+
+  const isNewUser = result._tokenResponse?.isNewUser;
+
+  if (isNewUser) {
+    console.log("New User");
+  } else {
+    console.log("Existing User");
+  }
+
   const user = result.user;
   const userInfo = {
     username: user.displayName,
     email: user.email,
     profileImg: user.photoURL,
     firebaseId: user.uid,
+    isNewUser,
   };
-  const token = user.getIdToken();
+
+  const token = result._tokenResponse?.idToken || (await user.getIdToken());
+
   return { userInfo, token };
 };

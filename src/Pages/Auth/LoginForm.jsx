@@ -73,12 +73,14 @@ const LoginForm = () => {
     isLoading: isGoogleLoading,
     isPending: isGooglePending,
   } = useMutation({
-    mutationFn: async (userInfo, token) => {
-      const response = await fetch(`${backendServer}/api/auth/google`, {
+    mutationFn: async ({userInfo, token}) => {
+      
+
+      const response = await fetch(`${backendServer}/api/users/auth/google`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
         credentials: "include",
         body: JSON.stringify(userInfo),
@@ -108,11 +110,16 @@ const LoginForm = () => {
       return await response.json();
     },
     onSuccess: async (jsonRes) => {
+      
+      localStorage.setItem("accessToken", jsonRes.data.access_token);
+      localStorage.setItem("refreshToken", jsonRes.data.refresh_token);
       localStorage.setItem("username", jsonRes.data.username);
+
       await queryClient.invalidateQueries({ queryKey: ["userAuth"] });
       navigate("/");
     },
     onError: (error) => {
+      console.log(error)
       toast.error(`Error: ${error.message}`);
     },
   });
@@ -132,7 +139,8 @@ const LoginForm = () => {
   const handleSignInWithGoogle = async () => {
     try {
       const { userInfo, token } = await signInWithGoogleAndGetUserInfo();
-      signInWithGoogle(userInfo, token);
+      
+      signInWithGoogle({userInfo, token});
     } catch (error) {
       toast.error("Google Sign-In failed");
     }
