@@ -30,8 +30,8 @@ export function App() {
     <div className="app h-svh w-svw bg-red-200">
       {/* Conditionally render the Header based on the route */}
       <ToastContainer limit={1} />
-      {location.pathname !== "/quiz" &&
-        location.pathname !== "/quiz-history" && <Header />}
+      
+      {location.pathname !== "/quiz" && <Header />}
 
       <Routes>
         <Route path="/" element={<InputPage />} />
