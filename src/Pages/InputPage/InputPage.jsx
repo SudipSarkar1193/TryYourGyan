@@ -15,8 +15,6 @@ const InputPage = () => {
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [quizData, setQuizData] = useState(null);
-
   const navigate = useNavigate();
 
   const {
@@ -53,11 +51,45 @@ const InputPage = () => {
         }
 
         const jsonRes = await res.json();
+
         let data = null;
-        if (jsonRes)
-          data = JSON.parse(jsonRes.data.Candidates[0].Content.Parts);
+        let jsonString = "";
+
+        if (jsonRes) {
+          jsonString = jsonRes.data.Candidates[0].Content.Parts[0].trim();
+
+          // Remove trailing closing brace if it exists
+          console.log(`jsonString.endsWith("}]}")`, jsonString.endsWith("}]}"));
+          console.log(
+            `jsonString.endsWith("}]}]")`,
+            jsonString.endsWith("}]}]")
+          );
+
+          if (jsonString.endsWith("}]}")) {
+            jsonString = jsonString.slice(0, jsonString.length - 1) + "]";
+
+            console.log("jsonString", jsonString);
+          }
+
+          if (jsonString.endsWith("}]}]")) {
+            jsonString =
+              jsonString.slice(0, jsonString.length - 2) +
+              jsonString.slice(jsonString.length - 1);
+
+            console.log("jsonString", jsonString);
+          }
+
+          // Parse the resulting JSON string
+
+          let data = JSON.parse(jsonString);
+
+          setLoading(false);
+
+          return data;
+        }
 
         setLoading(false);
+
         return data;
       } catch (error) {
         throw error;
@@ -70,8 +102,6 @@ const InputPage = () => {
     },
     onSuccess: (data) => {
       if (data) {
-        setQuizData(data);
-
         // Navigate to QuizPage and pass quizData and other data as state
         if (data[0]?.ok) {
           navigate("/quiz", {

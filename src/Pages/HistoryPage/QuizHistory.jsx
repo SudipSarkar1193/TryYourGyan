@@ -51,7 +51,7 @@ const QuizHistory = () => {
   // Show loading screen if user authentication is still loading
   if (authLoading) {
     return (
-      <div className="w-full  max-h-full flex flex-col items-center justify-start bg-inherit overflow-hidden gap-6">
+      <div className="w-full min-h-[80%] flex flex-col items-center justify-start bg-inherit overflow-hidden gap-6 ">
         <div className="text-2xl font-bold italic text-center mt-28 lg:mt-40">
           Checking Authentication status...
         </div>
@@ -67,7 +67,7 @@ const QuizHistory = () => {
   }
 
   return userAuth ? (
-    <div className="min-h-screen bg-gradient-to-br from-black to-[#140125] flex justify-center items-center py-4">
+    <div className="min-h-[80%] bg-gradient-to-br from-black to-[#140125] flex justify-center items-center bg-red-400 py-4">
       <div className="w-full max-w-5xl space-y-6">
         {loading ? (
           <div className="w-full  max-h-full flex flex-col items-center justify-start bg-inherit overflow-hidden gap-6">
