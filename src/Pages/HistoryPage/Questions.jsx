@@ -9,7 +9,7 @@ import LoadingSpinner from "../Common/LoadingSpinner";
 const Questions = () => {
   const location = useLocation();
   const { id, score, totalQuestions } = location.state || {};
-  
+
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,12 +30,11 @@ const Questions = () => {
       );
 
       if (!response.ok) {
-        
         throw new Error("Failed to fetch quizzes");
       }
 
       const data = await response.json();
-      
+
       setQuestions(data.data || []); // Extract the quizzes array from data
     } catch (err) {
       setError(err.message);
@@ -53,9 +52,8 @@ const Questions = () => {
   ) : loading ? (
     <div className="w-full  max-h-full flex flex-col items-center justify-start bg-inherit overflow-hidden gap-6">
       <div className="text-2xl font-bold italic text-center mt-28 lg:mt-40">
-        {`Questions are being loaded for you, ${localStorage.getItem(
-          "username"
-        )} 😄`}
+        {`Questions are being loaded for you,`} <br />
+        {` ${localStorage.getItem("username")} 😄`}
       </div>
       <div className="text-2xl font-bold italic text-center">
         <div className="w-full flex justify-center ">
