@@ -1,9 +1,11 @@
 import React from "react";
 
-const LoaderWithText = ({ text }) => {
+const LoaderWithText = ({ text, textSize = "sm", font = "medium" }) => {
   return (
     <div className="flex items-center justify-center gap-2">
-      <span className="text-sm font-medium text-btnTextColor">{text}</span>
+      <span className={`text-${textSize} font-${font} text-btnTextColor`}>
+        {text}
+      </span>
       <div aria-label="Loading..." role="status">
         <svg
           className="h-8 w-8 animate-spin stroke-gray-500"

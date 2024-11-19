@@ -4,6 +4,7 @@ import { Question } from "./Question";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import { backendServer } from "../../backendServer";
 import { useQuery } from "@tanstack/react-query";
+import PopupLoader from "../popup/PopupLoader";
 
 const QuizPage = () => {
   const [selectedIndex, setSelectedIndex] = useState([]);
@@ -12,7 +13,12 @@ const QuizPage = () => {
   const [loading, setLoading] = useState(false); // New loading state
 
   const location = useLocation();
-  const { quizData: questions, topic, level, totalQuestions } = location.state || {};
+  const {
+    quizData: questions,
+    topic,
+    level,
+    totalQuestions,
+  } = location.state || {};
 
   const navigate = useNavigate();
   const { data: userAuth } = useQuery({ queryKey: ["userAuth"] });
@@ -21,6 +27,7 @@ const QuizPage = () => {
     // Prevent multiple submissions
     if (loading) return;
     setLoading(true);
+    console.log("Loading",loading)
 
     let score = 0;
     const updatedList = [...updatedQuestionList];
@@ -32,11 +39,11 @@ const QuizPage = () => {
 
       if (isCorrect) score += 1;
 
-      const updatedObject = { 
-        ...question, 
-        correctAnsIndex, 
-        user_answer: question.options[userInputIndex], 
-        userInputIndex 
+      const updatedObject = {
+        ...question,
+        correctAnsIndex,
+        user_answer: question.options[userInputIndex],
+        userInputIndex,
       };
       updatedList[index] = updatedObject;
     });
@@ -91,15 +98,20 @@ const QuizPage = () => {
       }
 
       // Navigate to response history on success
-      navigate("/response-history", { state: { questions: updatedList, score } });
+      navigate("/response-history", {
+        state: { questions: updatedList, score },
+      });
     } catch (error) {
       console.error("Error submitting quiz:", error);
     } finally {
       setLoading(false); // Reset loading state
+      console.log("Loading 2",loading)
     }
   };
 
-  return (
+  return loading ? (
+    <PopupLoader />
+  ) : (
     <div
       className={`${
         questions
@@ -126,7 +138,9 @@ const QuizPage = () => {
       <button
         onClick={calculateScore}
         disabled={loading}
-        className={`mt-5 px-4 py-2 ${loading ? "bg-gray-400" : "bg-blue-600"} text-white rounded`}
+        className={`mt-5 px-4 py-2 ${
+          loading ? "bg-gray-400" : "bg-blue-600"
+        } text-white rounded`}
       >
         {loading ? "Submitting..." : "Submit"}
       </button>
