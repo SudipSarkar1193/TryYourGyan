@@ -27,7 +27,7 @@ const QuizPage = () => {
     // Prevent multiple submissions
     if (loading) return;
     setLoading(true);
-    console.log("Loading",loading)
+    console.log("Loading", loading);
 
     let score = 0;
     const updatedList = [...updatedQuestionList];
@@ -105,12 +105,12 @@ const QuizPage = () => {
       console.error("Error submitting quiz:", error);
     } finally {
       setLoading(false); // Reset loading state
-      console.log("Loading 2",loading)
+      console.log("Loading 2", loading);
     }
   };
 
   return loading ? (
-    <PopupLoader />
+    <PopupLoader text={"Answers are being submitted..."} />
   ) : (
     <div
       className={`${

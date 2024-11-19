@@ -1,21 +1,23 @@
 import React from "react";
+
+import PerctLoader from "./PerctLoader";
 import { LoaderWithText } from "../Common/LoaderWithText";
 
-const Card = () => {
+const PopupLoader = ({ text, loaderText }) => {
   return (
-    <div className="bg-gray-900 w-80  rounded-xl shadow-md p-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      <span className="block text-lg font-bold text-gray-200 mb-4 text-center">
-        Quiz is being submitted
+    <div className="bg-gray-900 w-80 rounded-xl shadow-md p-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <span className="block text-lg font-semibold italic text-gray-200 mb-4 text-center">
+        {text}
       </span>
-      <p className="text-gray-200 text-md text-center mb-6">
-        <LoaderWithText text={"Please wait ..."} textSize={"3xl"} />
-      </p>
+      <div className="text-gray-200 text-md text-center mb-6">
+        {loaderText ? (
+          <LoaderWithText text={loaderText} textSize="xl"/>
+        ) : (
+          <PerctLoader />
+        )}
+      </div>
     </div>
   );
-};
-
-const PopupLoader = () => {
-  return <Card />;
 };
 
 export default PopupLoader;

@@ -3,7 +3,7 @@ import React from "react";
 const LoaderWithText = ({ text, textSize = "sm", font = "medium" }) => {
   return (
     <div className="flex items-center justify-center gap-2">
-      <span className={`text-${textSize} font-${font} text-btnTextColor`}>
+      <span className={`text-${textSize} font-${font} text-btnTextColor italic`}>
         {text}
       </span>
       <div aria-label="Loading..." role="status">

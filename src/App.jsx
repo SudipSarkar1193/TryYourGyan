@@ -17,7 +17,6 @@ import ErrorPage from "./Pages/ErrorPage/ErrorPage";
 import { ToastContainer } from "react-toastify";
 import QuizHistory from "./Pages/HistoryPage/QuizHistory";
 import Questions from "./Pages/HistoryPage/Questions";
-import PopupLoader from "./Pages/popup/PopupLoader";
 
 export function App() {
   const location = useLocation();
@@ -28,7 +27,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="app h-svh w-svw bg-red-200">
+    <div className="app h-svh w-svw ">
       {/* Conditionally render the Header based on the route */}
       <ToastContainer limit={1} />
 
