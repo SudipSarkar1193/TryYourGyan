@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -17,9 +17,6 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MES_ID,
 };
 
-
-
-
 // Initialize Firebase
 
 const app = initializeApp(firebaseConfig);
@@ -28,27 +25,4 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-export const signInWithGoogleAndGetUserInfo = async () => {
-  const result = await signInWithPopup(auth, provider);
-
-  const isNewUser = result._tokenResponse?.isNewUser;
-
-  if (isNewUser) {
-    console.log("New User");
-  } else {
-    console.log("Existing User");
-  }
-
-  const user = result.user;
-  const userInfo = {
-    username: user.displayName,
-    email: user.email,
-    profileImg: user.photoURL,
-    firebaseId: user.uid,
-    isNewUser,
-  };
-
-  const token = result._tokenResponse?.idToken || (await user.getIdToken());
-
-  return { userInfo, token };
-};
+export { auth, provider };

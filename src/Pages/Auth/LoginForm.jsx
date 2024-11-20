@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { signInWithPopup } from "firebase/auth";
 import "./authForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { backendServer } from "../../backendServer";
-import { signInWithGoogleAndGetUserInfo } from "../../FireBase/firebase";
+import { auth, provider } from "../../utils/firebase";
 import { LoaderWithText } from "../Common/LoaderWithText";
 
 const LoginForm = () => {
@@ -58,12 +59,22 @@ const LoginForm = () => {
       localStorage.setItem("refreshToken", jsonRes.data.refresh_token);
       localStorage.setItem("username", jsonRes.data.username);
 
-      toast.success(jsonRes.data.message);
+      toast.success(jsonRes.message, {
+        style: {
+          backgroundColor: "white", // Customize the background color
+          color: "black", // Customize the text color
+        },
+      });
       await queryClient.invalidateQueries({ queryKey: ["userAuth"] });
       navigate("/");
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message, {
+        style: {
+          backgroundColor: "white", // Customize the background color
+          color: "black", // Customize the text color
+        },
+      });
     },
   });
 
@@ -73,9 +84,7 @@ const LoginForm = () => {
     isLoading: isGoogleLoading,
     isPending: isGooglePending,
   } = useMutation({
-    mutationFn: async ({userInfo, token}) => {
-      
-
+    mutationFn: async ({ userInfo, token }) => {
       const response = await fetch(`${backendServer}/api/users/auth/google`, {
         method: "POST",
         headers: {
@@ -110,17 +119,26 @@ const LoginForm = () => {
       return await response.json();
     },
     onSuccess: async (jsonRes) => {
-      
       localStorage.setItem("accessToken", jsonRes.data.access_token);
       localStorage.setItem("refreshToken", jsonRes.data.refresh_token);
       localStorage.setItem("username", jsonRes.data.username);
-
+      toast.success(jsonRes.message + " with Google", {
+        style: {
+          backgroundColor: "white", // Customize the background color
+          color: "black", // Customize the text color
+        },
+      });
       await queryClient.invalidateQueries({ queryKey: ["userAuth"] });
       navigate("/");
     },
     onError: (error) => {
-      console.log(error)
-      toast.error(`Error: ${error.message}`);
+      console.log(error);
+      toast.error(`Error: ${error.message}`, {
+        style: {
+          backgroundColor: "white", // Customize the background color
+          color: "black", // Customize the text color
+        },
+      });
     },
   });
 
@@ -138,11 +156,38 @@ const LoginForm = () => {
 
   const handleSignInWithGoogle = async () => {
     try {
-      const { userInfo, token } = await signInWithGoogleAndGetUserInfo();
-      
-      signInWithGoogle({userInfo, token});
+      console.log("Point 1");
+      const result = await signInWithPopup(auth, provider);
+      console.log("Point 2");
+
+      const isNewUser = result._tokenResponse?.isNewUser;
+      if (isNewUser) {
+        console.log("New User");
+      } else {
+        console.log("Existing User");
+      }
+
+      const user = result.user;
+      const userInfo = {
+        username: user.displayName,
+        email: user.email,
+        profileImg: user.photoURL,
+        firebaseId: user.uid,
+        isNewUser,
+      };
+
+      const token =
+        (await result._tokenResponse?.idToken) || (await user.getIdToken());
+
+      signInWithGoogle({ userInfo, token });
     } catch (error) {
-      toast.error("Google Sign-In failed");
+      console.error("Firebase : ", error);
+      toast.error("Google Sign-In failed", {
+        style: {
+          backgroundColor: "white", // Customize the background color
+          color: "black", // Customize the text color
+        },
+      });
     }
   };
 

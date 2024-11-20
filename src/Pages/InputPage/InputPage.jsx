@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Banner from "../Common/Banner";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Question } from "../QuizPage/Question";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../Common/LoadingSpinner";
@@ -8,6 +8,7 @@ import Loader2 from "../Common/Loader2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { backendServer } from "../../backendServer";
+import PopupLoader from "../popup/PopupLoader";
 
 const InputPage = () => {
   const [value, setValue] = useState(5);
@@ -16,6 +17,7 @@ const InputPage = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const {
     mutate,
@@ -28,7 +30,7 @@ const InputPage = () => {
       try {
         setLoading(true);
         const accessToken = localStorage.getItem("accessToken");
-
+        console.log("POINT 1");
         const res = await fetch(`${backendServer}/api/quiz/generate`, {
           method: "POST",
           headers: {
@@ -42,16 +44,16 @@ const InputPage = () => {
           }),
           credentials: "include",
         });
-
+        console.log("POINT 2");
         if (!res.ok) {
           const errorText = await res.text();
           const errorJsonString = errorText.replace("Error: ", "");
           const errorMessage = JSON.parse(errorJsonString);
           throw errorMessage;
         }
-
+        console.log("POINT 3");
         const jsonRes = await res.json();
-
+        console.log("POINT 4");
         let data = null;
         let jsonString = "";
 
@@ -172,6 +174,7 @@ const InputPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Trigger the mutation");
     mutate(); // Trigger the mutation
   };
 
@@ -196,12 +199,15 @@ const InputPage = () => {
     );
   }
 
-  return (
-    <div className=" flex flex-col lg:flex-row items-center lg:justify-around w-full  h-5/6 gap-4 overflow-hidden app">
-      <div className="w-4/6 lg:mt-0 lg:w-[40%] flex items-center justify-center flex-col">
+  return isAuthLoading ? (
+    <PopupLoader text={"Authenticating..."} />
+  ) : (
+    <div className=" flex flex-col lg:flex-row items-center justify-center lg:justify-around w-full  h-5/6 gap-4 overflow-hidden app ">
+      <div className="w-4/6 lg:mt-0 lg:w-[40%] flex items-center justify-center flex-col ">
         <div className="w-full m-6 h-8 bg-red flex items-center justify-center text-lg text-center lg:text-2xl lg:mt-16">
           What Topic Would You Like to take the Quiz On?
         </div>
+
         <form className="form lg:w-[60%]" onSubmit={handleSubmit}>
           <div className="input-group">
             <input
@@ -213,7 +219,6 @@ const InputPage = () => {
               onChange={handleTopicChange}
             />
           </div>
-
           <div className="flex flex-col items-center bg-transparent">
             <label
               htmlFor="difficulty"
@@ -261,8 +266,7 @@ const InputPage = () => {
               </div>
             )}
           </div>
-
-          <div className=" w-full flex items-center justify-evenly flex-col">
+          <div className=" w-full flex items-center justify-evenly flex-col ">
             <label
               htmlFor="number_of_question"
               className="w-full my-5 text-lg text-center lg:text-2xl"
@@ -281,23 +285,22 @@ const InputPage = () => {
             />
             <div className="mt-1 text-lg">{value}</div>
           </div>
-          {isAuthSuccess && (
-            <button
-              type="submit"
-              className="btn outline outline-1 outline-slate-600 mt-1"
-            >
-              Generate Your Quiz
-            </button>
-          )}
+          <div className="w-full flex justify-center">
+            {isAuthSuccess && (
+              <button
+                type="submit"
+                className="btn  outline outline-1 outline-slate-600 mt-1"
+              >
+                Generate Your Quiz
+              </button>
+            )}
+          </div>
         </form>
-        {isAuthLoading && <Loader2 />}{" "}
-        {!isAuthSuccess &&
-          !isAuthLoading &&
-          isAuthError &&
-          authError &&
-          !authUser && (
+
+        <div className="w-full flex justify-center">
+          {authError && (
             <button
-              className="max-w-full btn outline outline-1 outline-slate-600 mt-1"
+              className="btn outline outline-1 outline-slate-600 mt-1"
               onClick={() => {
                 navigate("/login");
               }}
@@ -305,6 +308,7 @@ const InputPage = () => {
               Please Log in first
             </button>
           )}
+        </div>
       </div>
     </div>
   );

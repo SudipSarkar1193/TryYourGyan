@@ -69,12 +69,22 @@ const RegisterForm = () => {
       }
     },
     onSuccess: ({ resData, username }) => {
-      toast.success(`Welcome ${username}`);
+      toast.success(`Welcome ${username}`,{
+        style: {
+          backgroundColor: "white", // Customize the background color
+          color: "black", // Customize the text color
+        },
+      });
       navigate("/login");
     },
     onError: (error) => {
       console.error(error);
-      toast.error(error.message);
+      toast.error(error.message,{
+        style: {
+          backgroundColor: "white", // Customize the background color
+          color: "black", // Customize the text color
+        },
+      });
     },
   });
 
