@@ -13,6 +13,7 @@ const RegisterForm = () => {
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
   const handleInputChange = (e) => {
     setFormData({
@@ -69,7 +70,7 @@ const RegisterForm = () => {
       }
     },
     onSuccess: ({ resData, username }) => {
-      toast.success(`Welcome ${username}`,{
+      toast.success(`Welcome ${username}`, {
         style: {
           backgroundColor: "white", // Customize the background color
           color: "black", // Customize the text color
@@ -79,7 +80,7 @@ const RegisterForm = () => {
     },
     onError: (error) => {
       console.error(error);
-      toast.error(error.message,{
+      toast.error(error.message, {
         style: {
           backgroundColor: "white", // Customize the background color
           color: "black", // Customize the text color
@@ -95,6 +96,26 @@ const RegisterForm = () => {
         className="form"
         onSubmit={(e) => {
           e.preventDefault();
+          const { username, email, password, confirmPassword } = formData;
+
+          if (!(username && email && password && confirmPassword)) {
+            toast.error("All fields are required", {
+              style: {
+                backgroundColor: "white", // Customize the background color
+                color: "black", // Customize the text color
+              },
+            });
+            return;
+          }
+          if (password !== confirmPassword) {
+            toast.error("password mismatched. Don't hurry typing", {
+              style: {
+                backgroundColor: "white", // Customize the background color
+                color: "black", // Customize the text color
+              },
+            });
+            return;
+          }
 
           signup(formData);
         }}
@@ -125,6 +146,17 @@ const RegisterForm = () => {
             type="password"
             name="password"
             id="password"
+            placeholder=""
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="confirmPassword">Confirm password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
             placeholder=""
             onChange={handleInputChange}
           />

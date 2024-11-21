@@ -131,7 +131,6 @@ const InputPage = () => {
   } = useQuery({
     queryKey: ["userAuth"],
     queryFn: async () => {
-      // Retrieve the access token from localStorage
       const accessToken = localStorage.getItem("accessToken");
 
       const res = await fetch(`${backendServer}/api/auth/me`, {
@@ -158,6 +157,7 @@ const InputPage = () => {
     cacheTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,
     retry: false,
+    enabled: !!localStorage.getItem("accessToken"), // Run only if accessToken exists
   });
 
   const handleRangeInputChange = (e) => {
@@ -174,7 +174,7 @@ const InputPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Trigger the mutation");
+    console.log("Triggerng the mutation for generating thr quizz");
     mutate(); // Trigger the mutation
   };
 
@@ -298,7 +298,7 @@ const InputPage = () => {
         </form>
 
         <div className="w-full flex justify-center">
-          {authError && (
+          {(!localStorage.getItem("accessToken") || authError) && (
             <button
               className="btn outline outline-1 outline-slate-600 mt-1"
               onClick={() => {

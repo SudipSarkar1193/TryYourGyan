@@ -215,6 +215,7 @@ const LoginForm = () => {
             onChange={handleInputChange}
           />
         </div>
+
         <button className="sign mt-5 transition-transform duration-150 active:scale-105">
           {isLoading || isPending ? (
             <LoaderWithText text={"Authenticating..."} />
