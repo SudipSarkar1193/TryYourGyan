@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { backendServer } from "../../backendServer";
 import PopupLoader from "../popup/PopupLoader";
+import { getAccessToken } from "../../utils/tokenManagement";
 
 const InputPage = () => {
   const [value, setValue] = useState(5);
@@ -157,7 +158,7 @@ const InputPage = () => {
     cacheTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,
     retry: false,
-    enabled: !!localStorage.getItem("accessToken"), // Run only if accessToken exists
+    enabled: !!getAccessToken(), // Run only if accessToken exists
   });
 
   const handleRangeInputChange = (e) => {
@@ -205,7 +206,7 @@ const InputPage = () => {
     <div className=" flex flex-col lg:flex-row items-center justify-center lg:justify-around w-full  h-5/6 gap-4 overflow-hidden app ">
       <div className="w-4/6 lg:mt-0 lg:w-[40%] flex items-center justify-center flex-col ">
         <div className="w-full m-6 h-8 bg-red flex items-center justify-center text-lg text-center lg:text-2xl lg:mt-16">
-          What Topic Would You Like to take the Quiz On?
+          What Topic Would You Like to take the Quiz On?{getAccessToken()}
         </div>
 
         <form className="form lg:w-[60%]" onSubmit={handleSubmit}>

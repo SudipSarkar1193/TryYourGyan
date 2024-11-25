@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { backendServer } from "../../backendServer";
 import { auth, provider } from "../../utils/firebase";
 import { LoaderWithText } from "../Common/LoaderWithText";
+import { storeToken } from "../../utils/tokenManagement";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -55,8 +56,7 @@ const LoginForm = () => {
       return await res.json();
     },
     onSuccess: async (jsonRes) => {
-      localStorage.setItem("accessToken", jsonRes.data.access_token);
-      localStorage.setItem("refreshToken", jsonRes.data.refresh_token);
+      storeToken(jsonRes.data.access_token,jsonRes.data.refresh_token)
       localStorage.setItem("username", jsonRes.data.username);
 
       toast.success(jsonRes.message, {

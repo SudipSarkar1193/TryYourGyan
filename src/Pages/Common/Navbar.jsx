@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { clearToken } from "../../utils/tokenManagement";
 
 const Navbar = ({ isOpen, setIsOpen }) => {
   const queryClient = useQueryClient();
@@ -13,8 +14,8 @@ const Navbar = ({ isOpen, setIsOpen }) => {
 
   const logout = async () => {
     // Clear tokens from localStorage
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+    clearToken()
+    
     localStorage.removeItem("username");
 
     //  invalidate queries related to authentication

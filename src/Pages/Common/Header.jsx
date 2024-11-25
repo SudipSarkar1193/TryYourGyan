@@ -19,7 +19,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className="text-2xl w-full flex justify-center items-center  h-24 font-bold italic  md:gap-28 gap-12  border border-purple-600">
+      <div className="text-2xl w-full flex justify-center items-center  h-24 font-bold italic  md:gap-28 gap-12">
         <div className="header hover:animate-pulse active:animate-pulse">
           <Link to={"/"} className="ring ring-purple-600 py-2 px-4 lg:py-6">
             TryYourজ্ঞান
