@@ -138,12 +138,22 @@ const InputPage = () => {
     authError ||
     (authUser && !authUser.data.isVarified);
 
+  console.log("showLoginButton", showLoginButton);
+  console.log("authError", authError);
+  console.log(
+    "!localStorage.getItem(accessToken)",
+    !localStorage.getItem("accessToken")
+  );
+  console.log(
+    "(authUser && !authUser.data.isVarified)",
+    authUser && !authUser.data.isVarified
+  );
+
   useEffect(() => {
-    
     setState({
       profileImg: authUser?.data.profileImg,
     });
-  }, [authUser,isAuthSuccess]);
+  }, [authUser, isAuthSuccess]);
 
   return (
     <>
