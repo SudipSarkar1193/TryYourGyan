@@ -19,7 +19,7 @@ const InputPage = () => {
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { setState } = useContext(AppContext);
+  const { state, setState } = useContext(AppContext);
 
   const { mutate, isLoading, isError, error, isSuccess } = useMutation({
     mutationFn: async () => {
@@ -132,7 +132,7 @@ const InputPage = () => {
     mutate();
   };
 
-  const showGenerateButton = !!authUser?.data?.isVarified && !authError;
+  const showGenerateButton = (isAuthSuccess || !authError) && authUser;
   const showLoginButton =
     !localStorage.getItem("accessToken") ||
     authError ||
@@ -154,6 +154,7 @@ const InputPage = () => {
   useEffect(() => {
     setState({
       profileImg: authUser?.data.profileImg,
+      authUser
     });
   }, [authUser, isAuthSuccess]);
 
@@ -242,7 +243,7 @@ const InputPage = () => {
                 <div className="mt-1 text-lg">{value}</div>
               </div>
               <div className="w-full flex justify-center">
-                {showGenerateButton && (
+                {state?.authUser && (
                   <button
                     type="submit"
                     className="btn outline outline-1 outline-slate-600 mt-1"

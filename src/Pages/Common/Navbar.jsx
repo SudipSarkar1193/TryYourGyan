@@ -16,7 +16,10 @@ const Navbar = ({ isOpen, setIsOpen }) => {
   const logout = async () => {
     // Clear tokens from localStorage
     clearToken();
-    setState(null);
+    await setState({
+      profileImg: "",
+      authUser: null,
+    });
 
     localStorage.removeItem("username");
 
