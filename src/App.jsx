@@ -9,7 +9,7 @@ import Footer from "./Pages/Common/Footer";
 import Banner from "./Pages/Common/Banner";
 import AuthPage from "./Pages/Auth/AuthPage";
 import InputPage from "./Pages/InputPage/InputPage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import QuizPage from "./Pages/QuizPage/QuizPage";
 import { Question } from "./Pages/QuizPage/Question";
 import Response from "./Pages/ResponsePage/Response";
@@ -18,6 +18,7 @@ import { toast, ToastContainer } from "react-toastify";
 import QuizHistory from "./Pages/HistoryPage/QuizHistory";
 import Questions from "./Pages/HistoryPage/Questions";
 import { Navbar } from "./Pages/Common/Navbar";
+import OtpInput from "./Pages/Auth/OTPVerificationForm";
 
 export function App() {
   const location = useLocation();
@@ -45,6 +46,7 @@ export function App() {
         <Route path="*" element={<InputPage />} />
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage isLoginPage={false} />} />
+        <Route path="/verify" element={<OtpInput />} />
         <Route path="/quiz" element={<QuizPage />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/response-history" element={<Response />} />

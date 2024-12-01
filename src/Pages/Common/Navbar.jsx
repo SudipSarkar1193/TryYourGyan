@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaHistory } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
 import { IoSettings } from "react-icons/io5";
@@ -7,15 +7,17 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { clearToken } from "../../utils/tokenManagement";
+import { AppContext } from "../../Context/AppContextProvider";
 
 const Navbar = ({ isOpen, setIsOpen }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
+  const { setState } = useContext(AppContext);
   const logout = async () => {
     // Clear tokens from localStorage
-    clearToken()
-    
+    clearToken();
+    setState(null);
+
     localStorage.removeItem("username");
 
     //  invalidate queries related to authentication
@@ -57,7 +59,7 @@ const Navbar = ({ isOpen, setIsOpen }) => {
             className="p-16-semibold flex size-full gap-4 p-4 group font-semibold rounded-full bg-cover transition-all ease-linear text-white hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-600 hover:text-black focus:bg-gradient-to-r focus:from-purple-400 focus:to-purple-600 focus:text-black"
             onClick={() => {
               setIsOpen(false);
-              toast.success("Coming soon...😅",{
+              toast.success("Coming soon...😅", {
                 style: {
                   backgroundColor: "white", // Customize the background color
                   color: "black", // Customize the text color

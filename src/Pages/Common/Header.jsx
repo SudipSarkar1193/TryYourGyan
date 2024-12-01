@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { FaBars } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "./Navbar";
+import { getAccessToken } from "../../utils/tokenManagement"; // Assuming this function handles token management.
+import { AppContext } from "../../Context/AppContextProvider";
 
 export const Header = () => {
   const [openNavbar, setOpenNavbar] = useState(true);
+
   const navigate = useNavigate();
+
+  const { state } = useContext(AppContext);
 
   // Automatically close navbar after 3 seconds to close the navbar
   useEffect(() => {
@@ -19,7 +24,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className="text-2xl w-full flex justify-center items-center  h-24 font-bold italic  md:gap-28 gap-12">
+      <div className="text-2xl w-full flex justify-center items-center h-24 font-bold italic md:gap-28 gap-12">
         <div className="header hover:animate-pulse active:animate-pulse">
           <Link to={"/"} className="ring ring-purple-600 py-2 px-4 lg:py-6">
             TryYourজ্ঞান
@@ -27,13 +32,17 @@ export const Header = () => {
         </div>
 
         <div
-          className=" block ring rounded-full w-16 h-16 bg-inherit my-4 hover:scale-110 active:scale-110"
+          className="block ring rounded-full w-16 h-16 bg-inherit my-4 hover:scale-110 active:scale-110"
           onClick={() => navigate("/")}
         >
           <img
-            src="https://res.cloudinary.com/dvsutdpx2/image/upload/v1732181213/ryi6ouf4e0mwcgz1tcxx.png"
+            key={state?.profileImg} // Forces React to remount the image on state change
+            src={
+              state?.profileImg ||
+              "https://res.cloudinary.com/dvsutdpx2/image/upload/v1732181213/ryi6ouf4e0mwcgz1tcxx.png"
+            }
             className="rounded-full object-contain"
-            alt="quiz img"
+            alt="profile img"
           />
         </div>
 

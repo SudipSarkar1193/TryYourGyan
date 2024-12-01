@@ -70,13 +70,14 @@ const RegisterForm = () => {
       }
     },
     onSuccess: ({ resData, username }) => {
+      localStorage.setItem("verifyToken", resData.data.verify_token);
       toast.success(`Welcome ${username}`, {
         style: {
           backgroundColor: "white", // Customize the background color
           color: "black", // Customize the text color
         },
       });
-      navigate("/login");
+      navigate("/verify");
     },
     onError: (error) => {
       console.error(error);

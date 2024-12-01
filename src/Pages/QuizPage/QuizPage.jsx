@@ -54,6 +54,7 @@ const QuizPage = () => {
 
     try {
       // First API call to create a new quiz entry
+
       const response = await fetch(`${backendServer}/api/quiz/new`, {
         method: "POST",
         headers: {
@@ -70,7 +71,11 @@ const QuizPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Quiz creation failed: ${response.statusText}`);
+        throw new Error(
+          `Quiz creation failed: ${
+            response.statusText
+          }\n ${await response.text()}`
+        );
       }
 
       const data = await response.json();
@@ -111,7 +116,6 @@ const QuizPage = () => {
       console.error("Error submitting quiz:", error);
     } finally {
       setLoading(false); // Reset loading state
-      
     }
   };
 

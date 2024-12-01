@@ -18,8 +18,42 @@ const LoginForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const [isResending, setIsResending] = useState(false); // State for resend logic
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const { mutate: resendOTP } = useMutation({
+    mutationFn: async () => {
+      setIsResending(true);
+      const response = await fetch(`${backendServer}/api/users/auth/newotp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("verifyToken")}`,
+        },
+      });
+
+      setIsResending(false);
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        throw new Error(errorData || "Failed to send OTP");
+      }
+
+      const jsonRes = await response.json();
+
+      return 1;
+    },
+    onSuccess: () => {
+      navigate("/verify");
+    },
+    onError: (error) => {
+      toast.error(error.message, {
+        style: { backgroundColor: "white", color: "black" },
+      });
+    },
+  });
 
   // Login Mutation
   const {
@@ -56,9 +90,23 @@ const LoginForm = () => {
       return await res.json();
     },
     onSuccess: async (jsonRes) => {
-      storeToken(jsonRes.data.access_token,jsonRes.data.refresh_token)
+      storeToken(jsonRes.data.access_token, jsonRes.data.refresh_token);
       localStorage.setItem("username", jsonRes.data.username);
 
+      localStorage.setItem("verifyToken", jsonRes.data.verify_token);
+
+      if (jsonRes.data.isNotVarified) {
+        toast.info("Please verify your email first", {
+          style: {
+            backgroundColor: "white", // Customize the background color
+            color: "black", // Customize the text color
+          },
+        });
+
+        resendOTP();
+
+        return;
+      }
       toast.success(jsonRes.message, {
         style: {
           backgroundColor: "white", // Customize the background color
@@ -119,10 +167,10 @@ const LoginForm = () => {
       return await response.json();
     },
     onSuccess: async (jsonRes) => {
-      localStorage.setItem("accessToken", jsonRes.data.access_token);
-      localStorage.setItem("refreshToken", jsonRes.data.refresh_token);
+      storeToken(jsonRes.data.access_token, jsonRes.data.refresh_token);
+
       localStorage.setItem("username", jsonRes.data.username);
-      toast.success(jsonRes.message + " with Google", {
+      toast.success(jsonRes.message, {
         style: {
           backgroundColor: "white", // Customize the background color
           color: "black", // Customize the text color
@@ -132,7 +180,7 @@ const LoginForm = () => {
       navigate("/");
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
       toast.error(`Error: ${error.message}`, {
         style: {
           backgroundColor: "white", // Customize the background color
