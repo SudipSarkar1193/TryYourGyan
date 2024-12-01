@@ -136,10 +136,12 @@ const InputPage = () => {
   const showLoginButton =
     !localStorage.getItem("accessToken") ||
     authError ||
+    !authUser ||
     (authUser && !authUser.data.isVarified);
 
   console.log("showLoginButton", showLoginButton);
   console.log("authError", authError);
+  console.log("!authUser", !authUser);
   console.log(
     "!localStorage.getItem(accessToken)",
     !localStorage.getItem("accessToken")
