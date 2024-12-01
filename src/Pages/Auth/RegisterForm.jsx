@@ -76,6 +76,7 @@ const RegisterForm = () => {
           backgroundColor: "white", // Customize the background color
           color: "black", // Customize the text color
         },
+        
       });
       navigate("/verify");
     },

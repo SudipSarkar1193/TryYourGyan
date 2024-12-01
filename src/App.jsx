@@ -34,7 +34,7 @@ export function App() {
       <ToastContainer
         limit={1}
         position={"top-center"}
-        autoClose={5000}
+        autoClose={2700}
         draggable
         draggableDirection={"x"}
       />
