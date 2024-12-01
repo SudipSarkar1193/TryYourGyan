@@ -13,9 +13,7 @@ export const Header = () => {
 
   const { state } = useContext(AppContext);
 
-  useEffect(() => {
-    console.log("state", state);
-  }, [state]);
+  
   // Automatically close navbar after 3 seconds to close the navbar
   useEffect(() => {
     const timer = setTimeout(() => {

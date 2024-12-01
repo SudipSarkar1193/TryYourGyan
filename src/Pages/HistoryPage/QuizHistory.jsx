@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import QuizBanner from "./QuizBanner";
 import { backendServer } from "../../backendServer";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Loader2 from "../Common/Loader2";
 import LoadingSpinner from "../Common/LoadingSpinner";
+import { AppContext } from "../../Context/AppContextProvider";
 
 const QuizHistory = () => {
-  const [quizData, setQuizData] = useState([]);
+  //const [quizData, setQuizData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const { state, setState } = useContext(AppContext);
 
   // Fetch quiz data
   const getQuizData = async () => {
@@ -31,7 +34,7 @@ const QuizHistory = () => {
 
       const data = await response.json();
 
-      setQuizData(data.data || []);
+      setState({ ...state, quizData: data.data || [] });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -67,7 +70,7 @@ const QuizHistory = () => {
   }
 
   return userAuth ? (
-    <div className="min-h-[80%] bg-gradient-to-br from-black to-[#140125] flex justify-center items-center bg-red-400 py-4">
+    <div className="min-h-[80%] bg-gradient-to-br from-black to-[#140125] flex justify-center items-center py-4">
       <div className="w-full max-w-5xl space-y-6">
         {loading ? (
           <div className="w-full  max-h-full flex flex-col items-center justify-start bg-inherit overflow-hidden gap-6">
@@ -86,8 +89,8 @@ const QuizHistory = () => {
           </div>
         ) : error ? (
           <p className="text-red-500">{error}</p>
-        ) : quizData.length === 0 ? (
-          <div className="w-full h-full flex justify-center items-center">
+        ) : state?.quizData.length === 0 ? (
+          <div className="w-full h-full flex justify-center items-center flex-col">
             <p className="text-2xl font-bold italic text-center ">
               No quizzes available.
             </p>
@@ -96,7 +99,7 @@ const QuizHistory = () => {
             </button>
           </div>
         ) : (
-          quizData.map((quiz) => (
+          state?.quizData.map((quiz) => (
             <div
               key={quiz.id} // Use key on the outermost element
               className="cursor-pointer"
@@ -108,6 +111,7 @@ const QuizHistory = () => {
                 level={quiz.level}
                 id={quiz.id}
                 date={quiz.created_at}
+                getQuizData={getQuizData}
               />
             </div>
           ))

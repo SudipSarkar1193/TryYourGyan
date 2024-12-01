@@ -132,29 +132,10 @@ const InputPage = () => {
     mutate();
   };
 
-  const showGenerateButton = (isAuthSuccess || !authError) && authUser;
-  const showLoginButton =
-    !localStorage.getItem("accessToken") ||
-    authError ||
-    !authUser ||
-    (authUser && !authUser.data.isVarified);
-
-  console.log("showLoginButton", showLoginButton);
-  console.log("authError", authError);
-  console.log("!authUser", !authUser);
-  console.log(
-    "!localStorage.getItem(accessToken)",
-    !localStorage.getItem("accessToken")
-  );
-  console.log(
-    "(authUser && !authUser.data.isVarified)",
-    authUser && !authUser.data.isVarified
-  );
-
   useEffect(() => {
     setState({
       profileImg: authUser?.data.profileImg,
-      authUser
+      authUser,
     });
   }, [authUser, isAuthSuccess]);
 
@@ -243,7 +224,7 @@ const InputPage = () => {
                 <div className="mt-1 text-lg">{value}</div>
               </div>
               <div className="w-full flex justify-center">
-                {state?.authUser && (
+                {state?.authUser && state?.authUser.data.isVarified && (
                   <button
                     type="submit"
                     className="btn outline outline-1 outline-slate-600 mt-1"
@@ -254,7 +235,11 @@ const InputPage = () => {
               </div>
             </form>
             <div className="w-full flex justify-center">
-              {showLoginButton && (
+              {!(
+                getAccessToken() &&
+                state?.authUser &&
+                state?.authUser.data.isVarified
+              ) && (
                 <button
                   className="btn outline outline-1 outline-slate-600 mt-1"
                   onClick={() => navigate("/login")}

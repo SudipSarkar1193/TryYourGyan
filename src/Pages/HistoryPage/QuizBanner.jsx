@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Score from "./Score";
 import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
+import PopupLoader from "../popup/PopupLoader";
+import { useMutation } from "@tanstack/react-query";
+import { backendServer } from "../../backendServer";
 
 const formatDateAndTime = (dateString) => {
   const date = new Date(dateString);
@@ -14,11 +19,65 @@ const formatDateAndTime = (dateString) => {
   return { formattedDate, formattedTime };
 };
 
-const QuizBanner = ({ title, score, totalQuestions, level, id, date }) => {
+const QuizBanner = ({
+  title,
+  score,
+  totalQuestions,
+  level,
+  id,
+  date,
+  getQuizData,
+}) => {
   const maxChars = 20;
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const { mutate: deleteQuiz } = useMutation({
+    mutationFn: async () => {
+      setLoading(true);
+      const response = await fetch(
+        `${backendServer}/api/quiz/quizzes?quizID=${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      setLoading(false);
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        throw new Error(errorData || "Failed to delete");
+      }
+
+      return true;
+    },
+    onSuccess: () => {
+      toast.success(`Quiz '${title}' deleted`, {
+        style: { backgroundColor: "white", color: "black" },
+      });
+      getQuizData();
+    },
+    onError: (error) => {
+      toast.error(error.message, {
+        style: { backgroundColor: "white", color: "black" },
+      });
+    },
+  });
 
   const { formattedDate, formattedTime } = formatDateAndTime(date);
+
+  if (loading) {
+    return (
+      <PopupLoader
+        text={"Deleting the quiz..."}
+        loaderText={"Please wait..."}
+      />
+    );
+  }
 
   const InfoComponent = ({ show = false }) => (
     <div
@@ -64,9 +123,19 @@ const QuizBanner = ({ title, score, totalQuestions, level, id, date }) => {
   return (
     <div
       className="bg-gradient-to-r from-indigo-800 to-purple-800 shadow-lg rounded-lg lg:p-3 md:p-6 border border-white backdrop-blur-sm max-w-3xl mx-auto my-5 sm:my-4 md:my-5 w-11/12 lg:w-5/6"
-      onClick={handleNavigate} // Navigation triggered on any click except h1
+      onClick={handleNavigate}
     >
-      <div className="flex flex-col sm:flex-row justify-between items-center text-white text-3xl gap-3 sm:gap-4 md:px-4 py-2">
+      <div className="flex flex-col sm:flex-row justify-between items-center text-white text-3xl gap-3 sm:gap-4 md:px-4 py-2 bg">
+        <div
+          className="absolute right-2 top-2 text-red-200 hover:scale-90 active:scale-125"
+          onClick={(event) => {
+            event.stopPropagation(); // Prevent the click event from triggering handleNavigate
+            deleteQuiz(); // Add your delete logic here
+          }}
+        >
+          <MdDelete size={28} />
+        </div>
+
         <h1
           onClick={openModal} // Open modal when clicked
           className="text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-wide cursor-pointer"

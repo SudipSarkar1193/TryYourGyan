@@ -285,7 +285,7 @@ const LoginForm = () => {
           onClick={handleSignInWithGoogle}
           className="bg-btnColor text-btnTextColor font-semibold rounded-lg p-2 w-full my-3 transition-transform duration-150 active:scale-105"
         >
-          {isGoogleLoading ? (
+          {(isGoogleLoading || isGooglePending) ? (
             <LoaderWithText text="Authenticating..." />
           ) : (
             <>
