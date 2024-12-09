@@ -103,11 +103,13 @@
     padding: 10px;
     color: #ffffff;
     /* background-image: linear-gradient(to right, #aa076b, #61045f); */
-    background-image: linear-gradient(to right, #20171d, #2c0234);
+    /* background-image: linear-gradient(to right, #20171d, #2c0234); */
+    /* background-image: linear-gradient(to right, #813467, #ad0dcd); */
+    background-image: linear-gradient(to right, blue, #21023b);
     border: none;
     border-radius: 100px;
     font-size: 14px;
-    text-transform: uppercase;
+    
     letter-spacing: 3px;
     font-weight: 500;
     cursor: pointer;

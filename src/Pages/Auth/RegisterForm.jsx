@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { LoaderWithText } from "../Common/LoaderWithText";
+import PopupLoader from "../popup/PopupLoader";
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -76,7 +77,6 @@ const RegisterForm = () => {
           backgroundColor: "white", // Customize the background color
           color: "black", // Customize the text color
         },
-        
       });
       navigate("/verify");
     },
@@ -90,6 +90,16 @@ const RegisterForm = () => {
       });
     },
   });
+
+  if (isLoading || isPending ) {
+    return (
+      <PopupLoader
+        
+        text={"This could take a moment"}
+        extraText={"Creating new account ..."}
+      />
+    );
+  }
 
   return (
     <div className="form-container">
@@ -176,17 +186,13 @@ const RegisterForm = () => {
         </button>
       </form>
 
-      <p className="signup mt-5">
-        Alraedy have an account?
-        <a
-          rel="noopener noreferrer"
-          href="#"
-          className="ml-2 transition-transform duration-150 active:scale-105"
-          onClick={() => navigate("/login")}
-        >
-          Sign in
-        </a>
-      </p>
+      <p className="signup mt-3 mb-2 text-center">Alraedy have an account?</p>
+      <span
+        className="sign outline outline-1 outline-slate-600  transition-transform duration-150 active:scale-105"
+        onClick={() => navigate("/login")}
+      >
+        Log in
+      </span>
     </div>
   );
 };

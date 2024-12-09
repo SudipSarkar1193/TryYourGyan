@@ -264,7 +264,7 @@ const LoginForm = () => {
           />
         </div>
 
-        <button className="sign mt-5 transition-transform duration-150 active:scale-105">
+        <button className="sign mt-5 transition-transform duration-150 active:scale-105 w-1/2">
           {isLoading || isPending ? (
             <LoaderWithText text={"Authenticating..."} />
           ) : (
@@ -272,6 +272,15 @@ const LoginForm = () => {
           )}
         </button>
       </form>
+
+      <p className="signup my-2">Don&apos;t have an account?</p>
+
+      <button
+        className="sign  transition-transform duration-150 active:scale-105 w-1/2"
+        onClick={() => navigate("/signup")}
+      >
+        Create new account
+      </button>
 
       <div className="social-message">
         <div className="line" />
@@ -285,7 +294,7 @@ const LoginForm = () => {
           onClick={handleSignInWithGoogle}
           className="bg-btnColor text-btnTextColor font-semibold rounded-lg p-2 w-full my-3 transition-transform duration-150 active:scale-105"
         >
-          {(isGoogleLoading || isGooglePending) ? (
+          {isGoogleLoading || isGooglePending ? (
             <LoaderWithText text="Authenticating..." />
           ) : (
             <>
@@ -294,13 +303,6 @@ const LoginForm = () => {
           )}
         </button>
       </div>
-
-      <p className="signup">
-        Don&apos;t have an account?
-        <span className="ml-2" onClick={() => navigate("/signup")}>
-          Sign up
-        </span>
-      </p>
     </div>
   );
 };

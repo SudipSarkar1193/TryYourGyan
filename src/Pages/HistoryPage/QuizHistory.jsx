@@ -124,7 +124,7 @@ const QuizHistory = () => {
         className="max-w-full btn outline outline-1 outline-slate-600 mt-1"
         onClick={() => navigate("/login")}
       >
-        Please Log in first
+        Please Log in First
       </button>
     </div>
   );
