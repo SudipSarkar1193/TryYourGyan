@@ -91,109 +91,120 @@ const RegisterForm = () => {
     },
   });
 
-  if (isLoading || isPending ) {
-    return (
-      <PopupLoader
-        
-        text={"This could take a moment"}
-        extraText={"Creating new account ..."}
-      />
-    );
-  }
+  // if (isLoading || isPending || 1) {
+  //   return (
+  //     <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur-sm">
+  //       <PopupLoader
+  //         text={"This could take a moment"}
+  //         extraText={"Creating new account ..."}
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
-    <div className="form-container">
-      <p className="title">Sign up</p>
-      <form
-        className="form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const { username, email, password, confirmPassword } = formData;
-
-          if (!(username && email && password && confirmPassword)) {
-            toast.error("All fields are required", {
-              style: {
-                backgroundColor: "white", // Customize the background color
-                color: "black", // Customize the text color
-              },
-            });
-            return;
-          }
-          if (password !== confirmPassword) {
-            toast.error("password mismatched. Don't hurry typing", {
-              style: {
-                backgroundColor: "white", // Customize the background color
-                color: "black", // Customize the text color
-              },
-            });
-            return;
-          }
-
-          signup(formData);
-        }}
-      >
-        <div className="input-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder=""
-            onChange={handleInputChange}
+    <>
+      {(isLoading || isPending || 1) && (
+        <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur-sm">
+          <PopupLoader
+            text={"This could take a moment"}
+            extraText={"Creating new account ..."}
           />
         </div>
-        <div className="input-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder=""
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="input-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder=""
-            onChange={handleInputChange}
-          />
-        </div>
+      )}
+      <div className="form-container">
+        <p className="title">Sign up</p>
+        <form
+          className="form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const { username, email, password, confirmPassword } = formData;
 
-        <div className="input-group">
-          <label htmlFor="confirmPassword">Confirm password</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            placeholder=""
-            onChange={handleInputChange}
-          />
-        </div>
+            if (!(username && email && password && confirmPassword)) {
+              toast.error("All fields are required", {
+                style: {
+                  backgroundColor: "white", // Customize the background color
+                  color: "black", // Customize the text color
+                },
+              });
+              return;
+            }
+            if (password !== confirmPassword) {
+              toast.error("password mismatched. Don't hurry typing", {
+                style: {
+                  backgroundColor: "white", // Customize the background color
+                  color: "black", // Customize the text color
+                },
+              });
+              return;
+            }
 
-        <button
-          className="sign  outline outline-1 outline-slate-600 mt-5 transition-transform duration-150 active:scale-105"
-          onChange={handleInputChange}
+            signup(formData);
+          }}
         >
-          {isLoading || isPending ? (
-            <LoaderWithText text={"Signing up..."} />
-          ) : (
-            "Sign up"
-          )}
-        </button>
-      </form>
+          <div className="input-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              placeholder=""
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder=""
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder=""
+              onChange={handleInputChange}
+            />
+          </div>
 
-      <p className="signup mt-3 mb-2 text-center">Alraedy have an account?</p>
-      <span
-        className="sign outline outline-1 outline-slate-600  transition-transform duration-150 active:scale-105"
-        onClick={() => navigate("/login")}
-      >
-        Log in
-      </span>
-    </div>
+          <div className="input-group">
+            <label htmlFor="confirmPassword">Confirm password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              placeholder=""
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <button
+            className="sign  outline outline-1 outline-slate-600 mt-5 transition-transform duration-150 active:scale-105"
+            onChange={handleInputChange}
+          >
+            {isLoading || isPending ? (
+              <LoaderWithText text={"Signing up..."} />
+            ) : (
+              "Sign up"
+            )}
+          </button>
+        </form>
+
+        <p className="signup mt-3 mb-2 text-center">Alraedy have an account?</p>
+        <span
+          className="sign outline outline-1 outline-slate-600  transition-transform duration-150 active:scale-105"
+          onClick={() => navigate("/login")}
+        >
+          Log in
+        </span>
+      </div>
+    </>
   );
 };
 

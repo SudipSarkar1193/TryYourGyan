@@ -70,14 +70,14 @@ const QuizBanner = ({
 
   const { formattedDate, formattedTime } = formatDateAndTime(date);
 
-  if (loading) {
-    return (
-      <PopupLoader
-        text={"Deleting the quiz..."}
-        loaderText={"Please wait..."}
-      />
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <PopupLoader
+  //       text={"Deleting the quiz..."}
+  //       loaderText={"Please wait..."}
+  //     />
+  //   );
+  // }
 
   const InfoComponent = ({ show = false }) => (
     <div
@@ -121,56 +121,66 @@ const QuizBanner = ({
   };
 
   return (
-    <div
-      className="bg-gradient-to-r from-indigo-800 to-purple-800 shadow-lg rounded-lg lg:p-3 md:p-6 border border-white backdrop-blur-sm max-w-3xl mx-auto my-5 sm:my-4 md:my-5 w-11/12 lg:w-5/6"
-      onClick={handleNavigate}
-    >
-      <div className="flex flex-col sm:flex-row justify-between items-center text-white text-3xl gap-3 sm:gap-4 md:px-4 py-2 bg">
-        <div
-          className="absolute right-2 top-2 text-red-200 hover:scale-90 active:scale-125"
-          onClick={(event) => {
-            event.stopPropagation(); // Prevent the click event from triggering handleNavigate
-            deleteQuiz(); // Add your delete logic here
-          }}
-        >
-          <MdDelete size={28} />
+    <>
+      {loading && (
+        <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur-sm">
+          <PopupLoader
+            text={"Deleting the quiz..."}
+            loaderText={"Please wait..."}
+          />
         </div>
-
-        <h1
-          onClick={openModal} // Open modal when clicked
-          className="text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-wide cursor-pointer"
-          title="Click to view full title"
-        >
-          {truncateTitle(title, maxChars)}
-        </h1>
-
-        <div className="flex w-full justify-around items-center ">
-          <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-400">
-            {formattedDate}
-          </h1>
-          <h2 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-300">
-            {formattedTime}
-          </h2>
-        </div>
-
-        <InfoComponent />
-      </div>
-
-      <dialog id={`modal_${id}`} className="modal">
-        <div className="modal-box bg-purple-900">
-          <h3 className="font-bold text-lg">Topic</h3>
-          <p className="py-4">{title}</p>
-          <InfoComponent show={true} />
-          <div className="modal-action">
-            <form method="dialog" onClick={handleModalClose}>
-              {" "}
-              {/* Prevent event propagation */}
-              <button className="btn">Close</button>
-            </form>
+      )}
+      <div
+        className="bg-gradient-to-r from-indigo-800 to-purple-800 shadow-lg rounded-lg lg:p-3 md:p-6 border border-white backdrop-blur-sm max-w-3xl mx-auto my-5 sm:my-4 md:my-5 w-11/12 lg:w-5/6"
+        onClick={handleNavigate}
+      >
+        <div className="flex flex-col sm:flex-row justify-between items-center text-white text-3xl gap-3 sm:gap-4 md:px-4 py-2 bg">
+          <div
+            className="absolute right-2 top-2 text-red-200 hover:scale-90 active:scale-125"
+            onClick={(event) => {
+              event.stopPropagation(); // Prevent the click event from triggering handleNavigate
+              deleteQuiz(); // Add your delete logic here
+            }}
+          >
+            <MdDelete size={28} />
           </div>
+
+          <h1
+            onClick={openModal} // Open modal when clicked
+            className="text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-wide cursor-pointer"
+            title="Click to view full title"
+          >
+            {truncateTitle(title, maxChars)}
+          </h1>
+
+          <div className="flex w-full justify-around items-center ">
+            <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-400">
+              {formattedDate}
+            </h1>
+            <h2 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium tracking-wide text-gray-300">
+              {formattedTime}
+            </h2>
+          </div>
+
+          <InfoComponent />
         </div>
-      </dialog>
-    </div>
+
+        <dialog id={`modal_${id}`} className="modal">
+          <div className="modal-box bg-purple-900">
+            <h3 className="font-bold text-lg">Topic</h3>
+            <p className="py-4">{title}</p>
+            <InfoComponent show={true} />
+            <div className="modal-action">
+              <form method="dialog" onClick={handleModalClose}>
+                {" "}
+                {/* Prevent event propagation */}
+                <button className="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+      </div>
+    </>
   );
 };
 

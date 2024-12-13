@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { FaHistory } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
+import { FaEdit } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +10,7 @@ import { toast } from "react-toastify";
 import { clearToken } from "../../utils/tokenManagement";
 import { AppContext } from "../../Context/AppContextProvider";
 
-const Navbar = ({ isOpen, setIsOpen }) => {
+const Navbar = ({ isOpen, setIsOpen, setIsModalOpen }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { setState } = useContext(AppContext);
@@ -56,6 +57,21 @@ const Navbar = ({ isOpen, setIsOpen }) => {
           </button>
         </li>
 
+        {/** Edit */}
+
+        <li className="flex-center cursor-pointer p-16-semibold w-full whitespace-nowrap">
+          <button
+            className="p-16-semibold flex size-full gap-4 p-4 group font-semibold rounded-full bg-cover transition-all ease-linear text-white hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-600 hover:text-black focus:bg-gradient-to-r focus:from-purple-400 focus:to-purple-600 focus:text-black"
+            onClick={async () => {
+              setIsOpen(false);
+              setIsModalOpen(true);
+            }}
+          >
+            <FaEdit size={27} />
+            Edit profile
+          </button>
+        </li>
+
         {/* Settings */}
         <li className="flex-center cursor-pointer p-16-semibold w-full whitespace-nowrap">
           <button
@@ -75,7 +91,9 @@ const Navbar = ({ isOpen, setIsOpen }) => {
           </button>
         </li>
 
-        {/* Logout */}
+        {/* Logout   / onClick={() =>
+					
+				} /*/}
         <li className="flex-center cursor-pointer p-16-semibold w-full whitespace-nowrap">
           <button
             className="p-16-semibold flex size-full gap-4 p-4 group font-semibold rounded-full bg-cover transition-all ease-linear text-white hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-600 hover:text-black focus:bg-gradient-to-r focus:from-purple-400 focus:to-purple-600 focus:text-black"

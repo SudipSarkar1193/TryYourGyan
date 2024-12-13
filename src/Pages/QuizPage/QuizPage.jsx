@@ -119,42 +119,48 @@ const QuizPage = () => {
     }
   };
 
-  return loading ? (
-    <PopupLoader text={"Answers are being submitted..."} />
-  ) : (
-    <div
-      className={`${
-        questions
-          ? "flex items-start flex-col pt-2 lg:items-center lg:justify-center lg:pt-20"
-          : "flex flex-col items-center justify-center h-screen"
-      }`}
-    >
-      {questions ? (
-        <Question
-          question={questions[questionNum]}
-          questionNum={questionNum}
-          setQuestionNum={setQuestionNum}
-          upperLimit={questions.length}
-          lowerLimit={0}
-          selectedIndex={selectedIndex}
-          setSelectedIndex={setSelectedIndex}
-          calculateScore={calculateScore}
-        />
-      ) : (
-        <ErrorPage />
+  return (
+    <>
+      {loading && (
+        <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur-sm">
+          <PopupLoader text={"Answers are being submitted..."} />
+        </div>
       )}
 
-      {/* Conditionally render the submit button */}
-      <button
-        onClick={calculateScore}
-        disabled={loading}
-        className={`mt-5 px-4 py-2 ${
-          loading ? "bg-gray-400" : "bg-blue-600"
-        } text-white rounded`}
+      <div
+        className={`${
+          questions
+            ? "flex items-start flex-col pt-2 lg:items-center lg:justify-center lg:pt-20"
+            : "flex flex-col items-center justify-center h-screen"
+        }`}
       >
-        {loading ? "Submitting..." : "Submit"}
-      </button>
-    </div>
+        {questions ? (
+          <Question
+            question={questions[questionNum]}
+            questionNum={questionNum}
+            setQuestionNum={setQuestionNum}
+            upperLimit={questions.length}
+            lowerLimit={0}
+            selectedIndex={selectedIndex}
+            setSelectedIndex={setSelectedIndex}
+            calculateScore={calculateScore}
+          />
+        ) : (
+          <ErrorPage />
+        )}
+
+        {/* Conditionally render the submit button */}
+        <button
+          onClick={calculateScore}
+          disabled={loading}
+          className={`mt-5 px-4 py-2 ${
+            loading ? "bg-gray-400" : "bg-blue-600"
+          } text-white rounded`}
+        >
+          {loading ? "Submitting..." : "Submit"}
+        </button>
+      </div>
+    </>
   );
 };
 
