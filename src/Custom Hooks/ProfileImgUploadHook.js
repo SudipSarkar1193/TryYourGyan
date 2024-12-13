@@ -21,7 +21,7 @@ const ProfileImgUploadHook = ({ profileImg, setProfileImg }) => {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,
-              "Access-Control-Allow-Origin": "*",
+              
             },
             body: JSON.stringify({
               profileImgUrl: profileImg,
