@@ -46,17 +46,21 @@ export function App() {
     const file = e.target.files[0];
 
     if (file) {
-      const reader = new FileReader();
-      setProfileImgUploadPending(true);
-      reader.onload = () => {
-        setProfileImg(reader.result);
-        setProfileImgUploadPending(false);
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxSizeInMB = 6;
+      if (fileSizeInMB <= maxSizeInMB) {
+        const reader = new FileReader();
+        setProfileImgUploadPending(true);
+        reader.onload = () => {
+          setProfileImg(reader.result);
+          setProfileImgUploadPending(false);
 
-        setTimeout(() => {
-          setShow(true);
-        }, 800);
-      };
-      reader.readAsDataURL(file);
+          setTimeout(() => {
+            setShow(true);
+          }, 800);
+        };
+        reader.readAsDataURL(file);
+      } 
     }
   };
 
@@ -128,7 +132,7 @@ export function App() {
       )}
       {profileImgUploadLoading && (
         <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
-          <PopupLoader text={"Image is being uploaded..."}  />
+          <PopupLoader text={"Image is being uploaded..."} />
         </div>
       )}
 
@@ -154,7 +158,7 @@ export function App() {
                       color: "black", // Customize the text color
                     },
                   });
-                 // setIsModalOpen(false);
+                  // setIsModalOpen(false);
                 }}
               >
                 {/* Username and Email */}
@@ -237,7 +241,7 @@ export function App() {
                 className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
                 onClick={() => setIsModalOpen(false)}
               >
-                <ImCross size={25}/>
+                <ImCross size={25} />
               </button>
             </div>
           </div>
