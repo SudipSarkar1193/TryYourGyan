@@ -97,7 +97,7 @@ export function App() {
     //mutateFn:
     HandleProfileImgUpload();
     setShow(false);
-    console.log("setIsUpdatingProfile /La");
+    
   };
 
   return (

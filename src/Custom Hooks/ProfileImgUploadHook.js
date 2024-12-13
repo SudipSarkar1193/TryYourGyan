@@ -13,7 +13,7 @@ const ProfileImgUploadHook = ({ profileImg, setProfileImg }) => {
       try {
         setLoading(true);
         const accessToken = localStorage.getItem("accessToken");
-        console.log("accessToken from :",accessToken)
+        
         const res = await fetch(
           `${backendServer}/api/users/update-profile-pic`,
           {
@@ -21,7 +21,7 @@ const ProfileImgUploadHook = ({ profileImg, setProfileImg }) => {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,
-              
+              "Access-Control-Allow-Origin": "*",
             },
             body: JSON.stringify({
               profileImgUrl: profileImg,

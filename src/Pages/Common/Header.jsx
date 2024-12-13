@@ -17,11 +17,6 @@ export const Header = ({
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
 
-  // useEffect(() => {
-  //   console.log("state", state); // Helpful for debugging
-  //   console.log("updatedProfileImg", updatedProfileImg); // Helpful for debugging
-  // }, [state, updatedProfileImg]);
-
   // Automatically close navbar after a delay
   useEffect(() => {
     const timer = setTimeout(() => {
