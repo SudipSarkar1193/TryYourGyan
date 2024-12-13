@@ -13,7 +13,7 @@ const ProfileImgUploadHook = ({ profileImg, setProfileImg }) => {
       try {
         setLoading(true);
         const accessToken = localStorage.getItem("accessToken");
-        console.log("accessToken from ya know :",accessToken)
+        console.log("accessToken from :",accessToken)
         const res = await fetch(
           `${backendServer}/api/users/update-profile-pic`,
           {
