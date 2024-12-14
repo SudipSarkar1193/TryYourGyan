@@ -33,3 +33,11 @@
 .modal::backdrop {
   background-color: rgba(0, 0, 0, 0.9); /* Fully opaque background */
 }
+
+.h-18{
+  height: 4.3rem;
+}
+
+.w-18{
+  width: 4.3rem;
+}

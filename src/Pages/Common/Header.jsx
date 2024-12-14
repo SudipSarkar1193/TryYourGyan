@@ -26,13 +26,13 @@ export const Header = ({
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     //re - render page
-  },[state?.authUser])
+  }, [state?.authUser]);
 
   return (
     <>
-      <div className="text-2xl w-full flex justify-center items-center h-24 font-bold italic md:gap-28 gap-12">
+      <div className="text-2xl w-full flex justify-center items-center h-24 font-bold italic md:gap-28 gap-10">
         <div className="header hover:animate-pulse active:animate-pulse">
           <Link to="/" className="ring ring-purple-600 py-2 px-4 lg:py-6">
             TryYourজ্ঞান
@@ -40,9 +40,9 @@ export const Header = ({
         </div>
 
         {/* Profile Section */}
-        <div className="relative bg-black flex flex-col items-center justify-center my-4">
+        <div className="relative  flex flex-col items-center justify-center ">
           <div
-            className="relative ring rounded-full w-16 h-16 bg-inherit hover:scale-110 active:scale-110"
+            className="relative ring ring-violet-600 rounded-full w-18 h-18 bg-inherit hover:scale-110 active:scale-110 overflow-hidden"
             onClick={() => navigate("/")}
           >
             <img
@@ -60,23 +60,25 @@ export const Header = ({
                     : state?.authUser?.data.profileImg
                   : "https://res.cloudinary.com/dvsutdpx2/image/upload/v1732181213/ryi6ouf4e0mwcgz1tcxx.png"
               }
-              className="rounded-full object-contain"
+              className="rounded-full object-cover"
               alt=""
               onError={(e) => {
                 console.error("setProfileImgError : ", e);
                 setProfileImgError(true);
               }} // Set error state
             />
-            {state?.authUser && (
-              <div
-                className="absolute bottom-0 right-0 bg-blue-800 rounded-full p-1 active:opacity-60 hover:opacity-60 cursor-pointer"
-                onClick={() => profileImgRef?.current.click()}
-              >
-                <MdModeEditOutline size={17} />
-              </div>
-            )}
           </div>
-          <div className="absolute -bottom-5 text-sm font-medium text-center">
+
+          {state?.authUser && (
+            <div
+              className="absolute bottom-0 right-0 bg-violet-600 rounded-full p-1 active:opacity-60 hover:opacity-60 cursor-pointer z-10"
+              onClick={() => profileImgRef?.current.click()}
+            >
+              <MdModeEditOutline size={15} />
+            </div>
+          )}
+
+          <div className="absolute -bottom-6 text-sm font-medium text-center">
             {state?.authUser?.data.username || "Guest"}
           </div>
         </div>

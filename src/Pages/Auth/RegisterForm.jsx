@@ -104,7 +104,7 @@ const RegisterForm = () => {
 
   return (
     <>
-      {(isLoading || isPending || 1) && (
+      {(isLoading || isPending ) && (
         <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur-sm">
           <PopupLoader
             text={"This could take a moment"}
