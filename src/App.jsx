@@ -204,7 +204,7 @@ export function App() {
                   />
                   <input
                     type="email"
-                    //placeholder="Email"
+                    placeholder="Email"
                     className="flex-1 input border border-gray-700 rounded p-2 input-md"
                     value={formData.email}
                     name="email"
