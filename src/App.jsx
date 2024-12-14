@@ -10,7 +10,7 @@ import Footer from "./Pages/Common/Footer";
 import Banner from "./Pages/Common/Banner";
 import AuthPage from "./Pages/Auth/AuthPage";
 import InputPage from "./Pages/InputPage/InputPage";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import QuizPage from "./Pages/QuizPage/QuizPage";
 import { Question } from "./Pages/QuizPage/Question";
 import Response from "./Pages/ResponsePage/Response";
@@ -25,6 +25,9 @@ import { useMutation } from "@tanstack/react-query";
 import { backendServer } from "./backendServer";
 import PopupLoader from "./Pages/popup/PopupLoader";
 import ProfileImgUploadHook from "./Custom Hooks/ProfileImgUploadHook";
+import { AppContext } from "./Context/AppContextProvider";
+import useUpdateProfile from "./Custom Hooks/UseUpdateProfile";
+import EmailVerifyPage from "./Pages/EmailVerifyPage/EmailVerifyPage";
 
 export function App() {
   const location = useLocation();
@@ -35,6 +38,16 @@ export function App() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [show, setShow] = useState(false);
+
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    bio: "",
+    currentPassword: "",
+    newPassword: "",
+  });
+
+  const { state, setState } = useContext(AppContext);
 
   const {
     HandleProfileImgUpload,
@@ -60,32 +73,56 @@ export function App() {
           }, 800);
         };
         reader.readAsDataURL(file);
-      } 
+      }
     }
   };
 
-  const handleUpdateProfile = async (e) => {
-    e.preventDefault();
-    setIsUpdatingProfile(true);
-    // Add API call or logic to update profile
+  const {
+    updateProfile,
+    isUpdateProfileError,
+    isPending: isUpdatingProfile,
+  } = useUpdateProfile();
 
-    setTimeout(() => setIsUpdatingProfile(false), 2000); // Simulate API response
+  const handleUpdateProfile = async () => {
+    // e.preventDefault();
+
+    const reqData = {
+      ...formData,
+      isUsernameChanged:
+        formData.username.trim() != state?.authUser?.data.username,
+      isEmailChanged: formData.email.trim() != state?.authUser?.data.email,
+      isbioChanged: formData.username.trim() != state?.authUser?.data.bio,
+      isPasswordChanged: formData.newPassword.trim() != "",
+    };
+
+    console.log("reqData", reqData);
+
+    if (reqData.isPasswordChanged && !formData.currentPassword) {
+      toast.error("Please enter the current password");
+      return;
+    }
+
+    updateProfile(reqData)
+    // Add API call or logic to update profile
   };
 
   useEffect(() => {
     // Set the theme on initial load
     document.documentElement.setAttribute("data-theme", "dark");
+    console.log("STATE (initial load): ", state);
   }, []);
 
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    bio: "",
-    currentPassword: "",
-    newPassword: "",
-  });
-
-  const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
+  useEffect(() => {
+    if (state?.authUser?.data) {
+      setFormData((prev) => ({
+        ...prev,
+        username: state.authUser.data.username || "",
+        email: state.authUser.data.email || "",
+        bio: state.authUser.data.bio || "",
+      }));
+    }
+    console.log("state.authUser.data : ", state?.authUser?.data);
+  }, [state?.authUser]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -97,7 +134,6 @@ export function App() {
     //mutateFn:
     HandleProfileImgUpload();
     setShow(false);
-    
   };
 
   return (
@@ -137,7 +173,7 @@ export function App() {
       )}
 
       <>
-        {/* Modal */}
+        {/* Edit profile Modal */}
         {isModalOpen && !show && (
           <div className="fixed inset-0 z-10 flex items-center justify-center">
             <div
@@ -151,14 +187,9 @@ export function App() {
                 className="flex flex-col gap-4"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  // handleUpdateProfile();
-                  toast.info("Work on progress", {
-                    style: {
-                      backgroundColor: "white", // Customize the background color
-                      color: "black", // Customize the text color
-                    },
-                  });
-                  // setIsModalOpen(false);
+                  console.log("EVENT ", e);
+                  handleUpdateProfile();
+                  
                 }}
               >
                 {/* Username and Email */}
@@ -173,7 +204,7 @@ export function App() {
                   />
                   <input
                     type="email"
-                    placeholder="Email"
+                    //placeholder="Email"
                     className="flex-1 input border border-gray-700 rounded p-2 input-md"
                     value={formData.email}
                     name="email"
@@ -182,30 +213,32 @@ export function App() {
                 </div>
 
                 {/* Password Fields */}
-                <div className="flex flex-wrap gap-2">
-                  <input
-                    type="password"
-                    placeholder="Current Password"
-                    className="flex-1 input border border-gray-700 rounded p-2 input-md"
-                    value={formData.currentPassword}
-                    name="currentPassword"
-                    onChange={handleInputChange}
-                  />
-                  <input
-                    type="password"
-                    placeholder="New Password"
-                    className="flex-1 input border border-gray-700 rounded p-2 input-md"
-                    value={formData.newPassword}
-                    name="newPassword"
-                    onChange={handleInputChange}
-                  />
-                </div>
+                {state?.authUser?.data?.password && (
+                  <div className="flex flex-wrap gap-2">
+                    <input
+                      type="password"
+                      placeholder="Current Password"
+                      className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                      value={formData.currentPassword}
+                      name="currentPassword"
+                      onChange={handleInputChange}
+                    />
+                    <input
+                      type="password"
+                      placeholder="New Password"
+                      className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                      value={formData.newPassword}
+                      name="newPassword"
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                )}
 
                 {/* Bio Field */}
-                <input
+                <textarea
                   type="text"
                   placeholder="Bio"
-                  className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                  className="flex-1 input border border-gray-700 rounded p-2 input-md h-auto"
                   value={formData.bio}
                   name="bio"
                   onChange={handleInputChange}
@@ -260,6 +293,7 @@ export function App() {
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage isLoginPage={false} />} />
         <Route path="/verify" element={<OtpInput />} />
+        <Route path="/verify-email" element={<EmailVerifyPage />} />
         <Route path="/quiz" element={<QuizPage />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/response-history" element={<Response />} />

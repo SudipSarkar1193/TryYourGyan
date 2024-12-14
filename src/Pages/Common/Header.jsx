@@ -71,7 +71,7 @@ export const Header = ({
 
           {state?.authUser && (
             <div
-              className="absolute bottom-0 right-0 bg-violet-600 rounded-full p-1 active:opacity-60 hover:opacity-60 cursor-pointer z-10"
+              className="absolute bottom-0 right-0 bg-violet-600 rounded-full p-1 active:opacity-60 hover:opacity-60 cursor-pointer z-50"
               onClick={() => profileImgRef?.current.click()}
             >
               <MdModeEditOutline size={15} />

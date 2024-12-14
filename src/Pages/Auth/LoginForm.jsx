@@ -204,28 +204,34 @@ const LoginForm = () => {
 
   const handleSignInWithGoogle = async () => {
     try {
-      console.log("Point 1");
-      const result = await signInWithPopup(auth, provider);
-      console.log("Point 2");
-
-      const isNewUser = result._tokenResponse?.isNewUser;
+      let result;
+      try {
+        console.log("Point 1: Before signInWithPopup");
+        result = await signInWithPopup(auth, provider);
+        console.log("Point 2: After signInWithPopup");
+      } catch (error) {
+        console.error("Error in signInWithPopup:", error);
+      }
+      const isNewUser = result?._tokenResponse?.isNewUser;
       if (isNewUser) {
         console.log("New User");
       } else {
         console.log("Existing User");
       }
 
-      const user = result.user;
-      const userInfo = {
-        username: user.displayName,
-        email: user.email,
-        profileImg: user.photoURL,
-        firebaseId: user.uid,
-        isNewUser,
-      };
+      const user = result?.user;
+      const userInfo = user
+        ? {
+            username: user.displayName,
+            email: user.email,
+            profileImg: user.photoURL,
+            firebaseId: user.uid,
+            isNewUser,
+          }
+        : {};
 
       const token =
-        (await result._tokenResponse?.idToken) || (await user.getIdToken());
+        (await result?._tokenResponse?.idToken) || (await user?.getIdToken());
 
       signInWithGoogle({ userInfo, token });
     } catch (error) {
@@ -235,6 +241,7 @@ const LoginForm = () => {
           backgroundColor: "white", // Customize the background color
           color: "black", // Customize the text color
         },
+        autoClose: 5700,
       });
     }
   };
