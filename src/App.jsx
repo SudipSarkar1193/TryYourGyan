@@ -175,9 +175,9 @@ export function App() {
       <>
         {/* Edit profile Modal */}
         {isModalOpen && !show && (
-          <div className="fixed inset-0 z-10 flex items-center justify-center">
+          <div className="fixed inset-0 z-40 flex items-center justify-center">
             <div
-              className="fixed inset-0 z-10 bg-opacity-50 backdrop-blur-sm"
+              className="fixed inset-0 z-40 bg-opacity-50 backdrop-blur-sm"
               onClick={() => setIsModalOpen(false)}
             ></div>
 
