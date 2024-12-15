@@ -22,9 +22,7 @@ const EmailVerifyPage = () => {
   const restartTheTimer = () => {
     if (timerRef.current) {
       timerRef.current.restartTimer();
-    } else {
-      console.log("No timerRef ", timerRef, timerRef.current);
-    }
+    } 
   };
 
   const [otp, setOtp] = useState(""); // State for OTP input

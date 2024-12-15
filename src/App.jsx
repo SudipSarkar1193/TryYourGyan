@@ -37,7 +37,10 @@ export function App() {
   const triggerFileUpload = (e) => {
     e.preventDefault();
     if (profileImgRef.current) {
+      console.log("profileImgRef", profileImgRef, profileImgRef.current);
       profileImgRef.current.click();
+    } else {
+      console.log("No profileImgRef ", profileImgRef, profileImgRef.current);
     }
   };
 
