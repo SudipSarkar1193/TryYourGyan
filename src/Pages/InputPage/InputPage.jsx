@@ -224,14 +224,16 @@ const InputPage = () => {
                 <div className="mt-1 text-lg">{value}</div>
               </div>
               <div className="w-full flex justify-center">
-                {state?.authUser && state?.authUser.data.isVarified && (
-                  <button
-                    type="submit"
-                    className="btn outline outline-1 outline-slate-600 mt-1"
-                  >
-                    Generate Your Quiz
-                  </button>
-                )}
+                {getAccessToken() &&
+                  state?.authUser &&
+                  state?.authUser.data.isVarified && (
+                    <button
+                      type="submit"
+                      className="btn outline outline-1 outline-slate-600 mt-1"
+                    >
+                      Generate Your Quiz
+                    </button>
+                  )}
               </div>
             </form>
             <div className="w-full flex justify-center">
