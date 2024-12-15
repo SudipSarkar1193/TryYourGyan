@@ -177,7 +177,7 @@ export function App() {
       )}
 
       <>
-        {/* Edit profile Modal */}(
+        {/* Edit profile Modal */}
         <div
           className={`fixed inset-0 z-40 flex items-center justify-center transition-all duration-1000 ${
             isModalOpen && !show
@@ -291,7 +291,6 @@ export function App() {
             </button>
           </div>
         </div>
-        )
       </>
       <input
         type="file"
