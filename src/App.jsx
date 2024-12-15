@@ -37,10 +37,7 @@ export function App() {
   const triggerFileUpload = (e) => {
     e.preventDefault();
     if (profileImgRef.current) {
-      console.log("profileImgRef", profileImgRef, profileImgRef.current);
       profileImgRef.current.click();
-    } else {
-      console.log("No profileImgRef ", profileImgRef, profileImgRef.current);
     }
   };
 
@@ -106,8 +103,6 @@ export function App() {
       isPasswordChanged: formData.newPassword.trim() != "",
     };
 
-    console.log("reqData", reqData);
-
     if (reqData.isPasswordChanged && !formData.currentPassword) {
       toast.error("Please enter the current password");
       return;
@@ -120,7 +115,6 @@ export function App() {
   useEffect(() => {
     // Set the theme on initial load
     document.documentElement.setAttribute("data-theme", "dark");
-    console.log("STATE (initial load): ", state);
   }, []);
 
   useEffect(() => {
@@ -132,7 +126,6 @@ export function App() {
         bio: state.authUser.data.bio || "",
       }));
     }
-    console.log("state.authUser.data : ", state?.authUser?.data);
   }, [state?.authUser]);
 
   const handleInputChange = (e) => {
@@ -184,111 +177,121 @@ export function App() {
       )}
 
       <>
-        {/* Edit profile Modal */}
-        {isModalOpen && !show && (
-          <div className="fixed inset-0 z-40 flex items-center justify-center">
-            <div
-              className="fixed inset-0 z-40 bg-opacity-50 backdrop-blur-sm"
-              onClick={() => setIsModalOpen(false)}
-            ></div>
+        {/* Edit profile Modal */}(
+        <div
+          className={`fixed inset-0 z-40 flex items-center justify-center transition-all duration-1000 ${
+            isModalOpen && !show
+              ? "opacity-100 pointer-events-auto scale-100"
+              : "opacity-0 pointer-events-none scale-90"
+          }`}
+        >
+          <div
+            className={`fixed inset-0 z-30 bg-black bg-opacity-50  transition-opacity  duration-1000 ease-in-out 
+            ${
+              isModalOpen && !show
+                ? "opacity-100"
+                : "opacity-0 pointer-events-none"
+            }`}
+            onClick={() => setIsModalOpen(false)}
+          ></div>
 
-            <div className="modal-box border rounded-md border-gray-700 shadow-md bg-black z-50">
-              <h3 className="font-bold text-lg my-3">Update Profile</h3>
-              <form
-                className="flex flex-col gap-4"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  console.log("EVENT ", e);
-                  handleUpdateProfile();
-                }}
-              >
-                {/* Username and Email */}
-                <div className="flex flex-wrap gap-2">
-                  <input
-                    type="text"
-                    placeholder="Username"
-                    className="flex-1 input border border-gray-700 rounded p-2 input-md"
-                    value={formData.username}
-                    name="username"
-                    onChange={handleInputChange}
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="flex-1 input border border-gray-700 rounded p-2 input-md"
-                    value={formData.email}
-                    name="email"
-                    onChange={handleInputChange}
-                  />
-                </div>
+          <div className="modal-box border rounded-md border-gray-700 shadow-md bg-black z-50">
+            <h3 className="font-bold text-lg my-3">Update Profile</h3>
+            <form
+              className="flex flex-col gap-4"
+              onSubmit={(e) => {
+                e.preventDefault();
 
-                {/* Password Fields */}
-                {state?.authUser?.data?.password && (
-                  <div className="flex flex-wrap gap-2">
-                    <input
-                      type="password"
-                      placeholder="Current Password"
-                      className="flex-1 input border border-gray-700 rounded p-2 input-md"
-                      value={formData.currentPassword}
-                      name="currentPassword"
-                      onChange={handleInputChange}
-                    />
-                    <input
-                      type="password"
-                      placeholder="New Password"
-                      className="flex-1 input border border-gray-700 rounded p-2 input-md"
-                      value={formData.newPassword}
-                      name="newPassword"
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                )}
-
-                {/* Bio Field */}
-                <textarea
+                handleUpdateProfile();
+              }}
+            >
+              {/* Username and Email */}
+              <div className="flex flex-wrap gap-2">
+                <input
                   type="text"
-                  placeholder="Bio"
-                  className="flex-1 input border border-gray-700 rounded p-2 input-md h-auto"
-                  value={formData.bio}
-                  name="bio"
+                  placeholder="Username"
+                  className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                  value={formData.username}
+                  name="username"
                   onChange={handleInputChange}
                 />
-
-                {/* Profile Picture Upload */}
-                <div
-                  className="rounded text-center py-2 px-2 text-white bg-gray-600 text-md w-48 md:w-52 lg:w-64 cursor-pointer"
-                  onClick={triggerFileUpload}
-                >
-                  {profileImgUploadLoading
-                    ? "Uploading..."
-                    : "Upload profile picture"}
-                </div>
                 <input
-                  type="file"
-                  ref={profileImgRef}
-                  className="hidden"
-                  onChange={handleImgChange}
+                  type="email"
+                  placeholder="Email"
+                  className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                  value={formData.email}
+                  name="email"
+                  onChange={handleInputChange}
                 />
+              </div>
 
-                {/* Submit Button */}
-                <button
-                  className="bg-gradient-to-r from-blue-700 to-[#21023b] w-full p-2 text-white border-none rounded-full text-sm tracking-widest font-medium cursor-pointer my-5 transition-all duration-300"
-                  disabled={isUpdatingProfile}
-                >
-                  {isUpdatingProfile ? "Updating..." : "Update"}
-                </button>
-              </form>
+              {/* Password Fields */}
+              {state?.authUser?.data?.password && (
+                <div className="flex flex-wrap gap-2">
+                  <input
+                    type="password"
+                    placeholder="Current Password"
+                    className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                    value={formData.currentPassword}
+                    name="currentPassword"
+                    onChange={handleInputChange}
+                  />
+                  <input
+                    type="password"
+                    placeholder="New Password"
+                    className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                    value={formData.newPassword}
+                    name="newPassword"
+                    onChange={handleInputChange}
+                  />
+                </div>
+              )}
 
-              {/* Close Button */}
-              <button
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-                onClick={() => setIsModalOpen(false)}
+              {/* Bio Field */}
+              <textarea
+                type="text"
+                placeholder="Bio"
+                className="flex-1 input border border-gray-700 rounded p-2 input-md h-auto"
+                value={formData.bio}
+                name="bio"
+                onChange={handleInputChange}
+              />
+
+              {/* Profile Picture Upload */}
+              <div
+                className="rounded text-center py-2 px-2 text-white bg-gray-600 text-md w-48 md:w-52 lg:w-64 cursor-pointer"
+                onClick={triggerFileUpload}
               >
-                <ImCross size={25} />
+                {profileImgUploadLoading
+                  ? "Uploading..."
+                  : "Upload profile picture"}
+              </div>
+              <input
+                type="file"
+                ref={profileImgRef}
+                className="hidden"
+                onChange={handleImgChange}
+              />
+
+              {/* Submit Button */}
+              <button
+                className="bg-gradient-to-r from-blue-700 to-[#21023b] w-full p-2 text-white border-none rounded-full text-sm tracking-widest font-medium cursor-pointer my-5 transition-all duration-300"
+                disabled={isUpdatingProfile}
+              >
+                {isUpdatingProfile ? "Updating..." : "Update"}
               </button>
-            </div>
+            </form>
+
+            {/* Close Button */}
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+              onClick={() => setIsModalOpen(false)}
+            >
+              <ImCross size={25} />
+            </button>
           </div>
-        )}
+        </div>
+        )
       </>
       <input
         type="file"
