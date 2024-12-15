@@ -81,7 +81,7 @@ export function App() {
     updateProfile,
     isUpdateProfileError,
     isPending: isUpdatingProfile,
-  } = useUpdateProfile();
+  } = useUpdateProfile(setIsModalOpen);
 
   const handleUpdateProfile = async () => {
     // e.preventDefault();

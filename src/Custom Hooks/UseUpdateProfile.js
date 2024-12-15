@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { backendServer } from "../backendServer";
 import { useNavigate } from "react-router-dom";
 
-const useUpdateProfile = () => {
+const useUpdateProfile = (setIsModalOpen) => {
   const navigate = useNavigate();
 
   const {
@@ -47,6 +47,7 @@ const useUpdateProfile = () => {
             color: "black",
           },
         });
+        setIsModalOpen(false)
         navigate("/verify-email", {
           state: {
             newEmail: variables.email,
