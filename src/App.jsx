@@ -33,6 +33,14 @@ export function App() {
   const location = useLocation();
 
   const profileImgRef = useRef(null);
+
+  const triggerFileUpload = (e) => {
+    e.preventDefault();
+    if (profileImgRef.current) {
+      profileImgRef.current.click();
+    }
+  };
+
   const [profileImg, setProfileImg] = useState(null);
   const [profileImgUploadPending, setProfileImgUploadPending] = useState(false);
 
@@ -102,7 +110,7 @@ export function App() {
       return;
     }
 
-    updateProfile(reqData)
+    updateProfile(reqData);
     // Add API call or logic to update profile
   };
 
@@ -149,7 +157,7 @@ export function App() {
 
       {location.pathname !== "/quiz" && (
         <Header
-          profileImgRef={profileImgRef}
+          onProfileImgClick={triggerFileUpload}
           updatedProfileImg={profileImg}
           profileImgUploadPending={profileImgUploadPending}
           setIsModalOpen={setIsModalOpen}
@@ -189,7 +197,6 @@ export function App() {
                   e.preventDefault();
                   console.log("EVENT ", e);
                   handleUpdateProfile();
-                  
                 }}
               >
                 {/* Username and Email */}
@@ -247,7 +254,7 @@ export function App() {
                 {/* Profile Picture Upload */}
                 <div
                   className="rounded text-center py-2 px-2 text-white bg-gray-600 text-md w-48 md:w-52 lg:w-64 cursor-pointer"
-                  onClick={() => profileImgRef.current.click()}
+                  onClick={triggerFileUpload}
                 >
                   {profileImgUploadLoading
                     ? "Uploading..."
