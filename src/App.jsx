@@ -177,11 +177,11 @@ export function App() {
         {isModalOpen && !show && (
           <div className="fixed inset-0 z-40 flex items-center justify-center">
             <div
-              className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur-sm"
+              className="fixed inset-0 z-40 bg-opacity-50 backdrop-blur-sm"
               onClick={() => setIsModalOpen(false)}
             ></div>
 
-            <div className="modal-box border rounded-md border-gray-700 shadow-md bg-black z-20">
+            <div className="modal-box border rounded-md border-gray-700 shadow-md bg-black z-50">
               <h3 className="font-bold text-lg my-3">Update Profile</h3>
               <form
                 className="flex flex-col gap-4"
