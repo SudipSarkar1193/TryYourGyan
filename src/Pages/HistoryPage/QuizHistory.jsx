@@ -8,14 +8,14 @@ import LoadingSpinner from "../Common/LoadingSpinner";
 import { AppContext } from "../../Context/AppContextProvider";
 
 const QuizHistory = () => {
-  //const [quizData, setQuizData] = useState([]);
+  //
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const { state, setState } = useContext(AppContext);
 
-  // Fetch quiz data
+  //
   const getQuizData = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");

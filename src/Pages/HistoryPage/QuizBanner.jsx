@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import PopupLoader from "../popup/PopupLoader";
 import { useMutation } from "@tanstack/react-query";
 import { backendServer } from "../../backendServer";
+import ConfirmPopup from "../popup/ConfirmPopup";
 
 const formatDateAndTime = (dateString) => {
   const date = new Date(dateString);
@@ -31,6 +32,7 @@ const QuizBanner = ({
   const maxChars = 20;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
 
   const { mutate: deleteQuiz } = useMutation({
     mutationFn: async () => {
@@ -69,15 +71,6 @@ const QuizBanner = ({
   });
 
   const { formattedDate, formattedTime } = formatDateAndTime(date);
-
-  // if (loading) {
-  //   return (
-  //     <PopupLoader
-  //       text={"Deleting the quiz..."}
-  //       loaderText={"Please wait..."}
-  //     />
-  //   );
-  // }
 
   const InfoComponent = ({ show = false }) => (
     <div
@@ -130,6 +123,28 @@ const QuizBanner = ({
           />
         </div>
       )}
+      {1 && (
+        <div
+          //className="fixed inset-0 z-30 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
+          className={`fixed inset-0 z-40 flex items-center justify-center transition-all duration-1000 backdrop-blur-sm ${
+            show
+              ? "opacity-100 pointer-events-auto scale-100"
+              : "opacity-0 pointer-events-none scale-90"
+          }`}
+          onClick={() => setShow(false)}
+        >
+          <ConfirmPopup
+            text={`Do you want to delete the quiz : '${truncateTitle(
+              title,
+              maxChars
+            )} '`}
+            setShow={setShow}
+            handleConfirm={deleteQuiz}
+            yesColor="red"
+            noColor="blue"
+          />
+        </div>
+      )}
       <div
         className="bg-gradient-to-r from-indigo-800 to-purple-800 shadow-lg rounded-lg lg:p-3 md:p-6 border border-white backdrop-blur-sm max-w-3xl mx-auto my-5 sm:my-4 md:my-5 w-11/12 lg:w-5/6"
         onClick={handleNavigate}
@@ -138,8 +153,8 @@ const QuizBanner = ({
           <div
             className="absolute right-2 top-2 text-red-200 hover:scale-90 active:scale-125"
             onClick={(event) => {
-              event.stopPropagation(); // Prevent the click event from triggering handleNavigate
-              deleteQuiz(); // Add your delete logic here
+              event.stopPropagation();
+              setShow(true);
             }}
           >
             <MdDelete size={28} />

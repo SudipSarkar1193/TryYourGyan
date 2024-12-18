@@ -9,6 +9,7 @@ import { backendServer } from "../../backendServer";
 import { auth, provider } from "../../utils/firebase";
 import { LoaderWithText } from "../Common/LoaderWithText";
 import { storeToken } from "../../utils/tokenManagement";
+import PopupLoader from "../popup/PopupLoader";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -247,70 +248,80 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="form-container">
-      <p className="title">Login</p>
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label htmlFor="username">Username/email</label>
-          <input
-            type="text"
-            name="usernameOrEmail"
-            id="usernameOrEmail"
-            value={formData.usernameOrEmail}
-            onChange={handleInputChange}
+    <>
+      {(isGoogleLoading || isGooglePending) && (
+        <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur-sm">
+          <PopupLoader
+            text={"Authenticating..."}
+            loaderText={"Please wait..."}
           />
         </div>
-        <div className="input-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            id="password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </div>
+      )}
+      <div className="form-container">
+        <p className="title">Login</p>
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label htmlFor="username">Username/email</label>
+            <input
+              type="text"
+              name="usernameOrEmail"
+              id="usernameOrEmail"
+              value={formData.usernameOrEmail}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              id="password"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+          </div>
 
-        <button className="sign mt-5 transition-transform duration-150 active:scale-105 w-1/2">
-          {isLoading || isPending ? (
-            <LoaderWithText text={"Authenticating..."} />
-          ) : (
-            "Log in"
-          )}
-        </button>
-      </form>
+          <button className="sign mt-5 transition-transform duration-150 active:scale-105 w-1/2">
+            {isLoading || isPending ? (
+              <LoaderWithText text={"Authenticating..."} />
+            ) : (
+              "Log in"
+            )}
+          </button>
+        </form>
 
-      <p className="signup my-2">Don&apos;t have an account?</p>
+        <p className="signup my-2">Don&apos;t have an account?</p>
 
-      <button
-        className="sign  transition-transform duration-150 active:scale-105 w-1/2"
-        onClick={() => navigate("/signup")}
-      >
-        Create new account
-      </button>
-
-      <div className="social-message">
-        <div className="line" />
-        <p className="message">or</p>
-        <div className="line" />
-      </div>
-
-      <div className="flex justify-center">
         <button
-          aria-label="Log in with Google"
-          onClick={handleSignInWithGoogle}
-          className="bg-btnColor text-btnTextColor font-semibold rounded-lg p-2 w-full my-3 transition-transform duration-150 active:scale-105"
+          className="sign  transition-transform duration-150 active:scale-105 w-1/2"
+          onClick={() => navigate("/signup")}
         >
-          {isGoogleLoading || isGooglePending ? (
-            <LoaderWithText text="Authenticating..." />
-          ) : (
-            <>
-              Sign in with <FcGoogle size={25} className="inline-block" />
-            </>
-          )}
+          Create new account
         </button>
+
+        <div className="social-message">
+          <div className="line" />
+          <p className="message">or</p>
+          <div className="line" />
+        </div>
+
+        <div className="flex justify-center">
+          <button
+            aria-label="Log in with Google"
+            onClick={handleSignInWithGoogle}
+            className="bg-btnColor text-btnTextColor font-semibold rounded-lg p-2 w-full my-3 transition-transform duration-150 active:scale-105"
+          >
+            {isGoogleLoading || isGooglePending ? (
+              <LoaderWithText text="Authenticating..." />
+            ) : (
+              <>
+                Sign in with <FcGoogle size={25} className="inline-block" />
+              </>
+            )}
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

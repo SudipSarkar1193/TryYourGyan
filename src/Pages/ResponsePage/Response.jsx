@@ -10,19 +10,14 @@ const Response = () => {
   const { questions, score, quiz_id } = location.state || {};
   const accessToken = localStorage.getItem("accessToken");
 
-  // Define a mutation to send questions to the backend
-  // const { mutate, isLoading, isError, error } = useMutation({
-  //   mutationFn:
-  
-  // mutate({ questions, quiz_id });
-   
-
   return (
     <div className="min-h-screen w-screen overflow-x-hidden app">
       <div className="w-full overflow-x-hidden flex items-center justify-center">
         <ScoreCard score={score} total={questions.length} />
       </div>
-      <div className="text-xl font-bold italic text-center">Your Response History:</div>
+      <div className="text-xl font-bold italic text-center">
+        Your Response History:
+      </div>
       {questions.map((question, index) => (
         <ResponseQuestion key={index} question={question} />
       ))}
