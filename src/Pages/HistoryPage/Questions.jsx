@@ -70,7 +70,7 @@ const Questions = () => {
           <ScoreCard score={score} total={totalQuestions} />
         )}
       </div>
-      <div className="text-xl font-bold italic text-center">
+      <div className="text-xl font-bold italic text-center mt-5">
         Your Response History:
       </div>
       {questions.map((question, index) => (
