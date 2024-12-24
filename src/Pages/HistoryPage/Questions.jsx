@@ -9,7 +9,7 @@ import LoadingSpinner from "../Common/LoadingSpinner";
 const Questions = () => {
   const location = useLocation();
   const { score, totalQuestions } = location.state || {};
-  const {id} = useParams()
+  const { id } = useParams();
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -71,7 +71,9 @@ const Questions = () => {
         )}
       </div>
       <div className="text-xl font-bold italic text-center mt-5">
-        Your Response History:
+        {totalQuestions && score
+          ? "Your Response History :"
+          : "Response History :"}
       </div>
       {questions.map((question, index) => (
         <ResponseQuestion key={index} question={question} />
