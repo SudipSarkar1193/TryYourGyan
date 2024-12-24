@@ -100,9 +100,8 @@ const QuizBanner = ({
   };
 
   const handleNavigate = () => {
-    navigate("/questions-history", {
+    navigate(`/questions-history/${id}`, {
       state: {
-        id,
         score,
         totalQuestions,
       },

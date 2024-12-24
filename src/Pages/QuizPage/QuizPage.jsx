@@ -109,8 +109,8 @@ const QuizPage = () => {
         },
       });
       // Navigate to response history on success
-      navigate("/response-history", {
-        state: { questions: updatedList, score },
+      navigate(`/questions-history/${quiz_id}`, {
+        state: { score, totalQuestions},
       });
     } catch (error) {
       console.error("Error submitting quiz:", error);

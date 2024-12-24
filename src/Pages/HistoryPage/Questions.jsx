@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import ScoreCard from "../ResponsePage/ScoreCard";
 import { ResponseQuestion } from "../ResponsePage/ResponseQuestion";
 import { backendServer } from "../../backendServer";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Loader2 from "../Common/Loader2";
 import LoadingSpinner from "../Common/LoadingSpinner";
 
 const Questions = () => {
   const location = useLocation();
-  const { id, score, totalQuestions } = location.state || {};
-
+  const { score, totalQuestions } = location.state || {};
+  const {id} = useParams()
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -66,7 +66,9 @@ const Questions = () => {
   ) : (
     <div className="min-h-screen w-screen overflow-x-hidden app">
       <div className="w-full overflow-x-hidden flex items-center justify-center">
-        <ScoreCard score={score} total={totalQuestions} />
+        {totalQuestions && score && (
+          <ScoreCard score={score} total={totalQuestions} />
+        )}
       </div>
       <div className="text-xl font-bold italic text-center">
         Your Response History:

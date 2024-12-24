@@ -310,7 +310,7 @@ export function App() {
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/response-history" element={<Response />} />
         <Route path="/quiz-history" element={<QuizHistory />} />
-        <Route path="/questions-history" element={<Questions />} />
+        <Route path="/questions-history/:id" element={<Questions />} />
       </Routes>
     </div>
   );
