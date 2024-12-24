@@ -11,6 +11,7 @@ const Questions = () => {
   const { score, totalQuestions } = location.state || {};
   const { id } = useParams();
   const [questions, setQuestions] = useState([]);
+  const [quiz, setQuiz] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -35,7 +36,8 @@ const Questions = () => {
 
       const data = await response.json();
 
-      setQuestions(data.data || []); // Extract the quizzes array from data
+      setQuestions(data.data?.questions || []); // Extract the quizzes array from data
+      setQuiz(data.data.quiz);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -74,6 +76,9 @@ const Questions = () => {
         {totalQuestions && score
           ? "Your Response History :"
           : "Response History :"}
+      </div>
+      <div className="text-lg font-bold italic text-center mt-3">
+        {quiz?.quiz_name}
       </div>
       {questions.map((question, index) => (
         <ResponseQuestion key={index} question={question} />
