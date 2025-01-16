@@ -136,6 +136,7 @@ const InputPage = () => {
     setState({
       profileImg: authUser?.data.profileImg,
       authUser,
+      bio: authUser?.data.bio,
     });
   }, [authUser, isAuthSuccess]);
 

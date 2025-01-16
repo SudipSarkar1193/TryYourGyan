@@ -32,7 +32,7 @@ const ConfirmPopup = ({
   return (
     <>
       {/* Popup */}
-      <div className="bg-gray-900 w-80 rounded-xl shadow-xl p-6 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 border border-gray-700">
+      <div className="bg-gray-900/85 w-80 rounded-xl shadow-xl p-6 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 border border-gray-700">
         <h3 className="text-center text-xl text-white font-semibold italic mb-4">
           {text}
         </h3>

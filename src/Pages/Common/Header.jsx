@@ -5,6 +5,7 @@ import { FaBars } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { AppContext } from "../../Context/AppContextProvider";
+import ProfileModal from "../popup/ProfileModal";
 
 export const Header = ({
   onProfileImgClick,
@@ -14,6 +15,12 @@ export const Header = ({
 }) => {
   const [openNavbar, setOpenNavbar] = useState(true);
   const [profileImgError, setProfileImgError] = useState(false); // Tracks image load errors
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleOpenModal = () => setIsModalVisible(true);
+  const handleCloseModal = () => setIsModalVisible(false);
+
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
 
@@ -43,7 +50,7 @@ export const Header = ({
         <div className="relative  flex flex-col items-center justify-center ">
           <div
             className="relative ring ring-violet-600 rounded-full w-18 h-18 bg-inherit hover:scale-110 active:scale-110 overflow-hidden"
-            onClick={() => navigate("/")}
+            onClick={handleOpenModal}
           >
             <img
               key={
@@ -72,7 +79,10 @@ export const Header = ({
           {state?.authUser && (
             <div
               className="absolute bottom-0 right-0 bg-violet-600 rounded-full p-1 active:opacity-60 hover:opacity-60 cursor-pointer z-30"
-              onClick={onProfileImgClick}
+              onClick={(e) => {
+                e.stopPropagation();
+                onProfileImgClick();
+              }}
             >
               <MdModeEditOutline size={15} />
             </div>
@@ -103,6 +113,24 @@ export const Header = ({
           )}
         </div>
       </div>
+
+      {state?.authUser && (
+        <ProfileModal
+          imageUrl={
+            !profileImgUploadPending && updatedProfileImg
+              ? updatedProfileImg
+              : state?.authUser
+              ? profileImgError || !state?.authUser?.data.profileImg
+                ? "https://res.cloudinary.com/dvsutdpx2/image/upload/v1732181213/ryi6ouf4e0mwcgz1tcxx.png"
+                : state?.authUser?.data.profileImg
+              : "https://res.cloudinary.com/dvsutdpx2/image/upload/v1732181213/ryi6ouf4e0mwcgz1tcxx.png"
+          }
+          isVisible={isModalVisible}
+          bio={state?.bio}
+          onClose={handleCloseModal}
+          onProfileImgClick={onProfileImgClick}
+        />
+      )}
 
       {/* Navbar Component */}
       <Navbar

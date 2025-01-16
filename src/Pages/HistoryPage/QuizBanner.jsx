@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Score from "./Score";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
+import { FaShareSquare } from "react-icons/fa";
 import { toast } from "react-toastify";
 import PopupLoader from "../popup/PopupLoader";
 import { useMutation } from "@tanstack/react-query";
@@ -29,6 +30,32 @@ const QuizBanner = ({
   date,
   getQuizData,
 }) => {
+  const handleShare = async (quizId) => {
+    try {
+      const shareableLink = `https://try-your-gyan.vercel.app/questions-history/${quizId}`;
+
+      if (navigator.share) {
+        // Use the Web Share API if available
+        await navigator.share({
+          title: "Check out this quiz I just tried!",
+          url: shareableLink,
+        });
+        
+      } else {
+        // Fallback to copying the link to clipboard
+        await navigator.clipboard.writeText(shareableLink);
+        toast.error(`Link copied to clipboard: ${shareableLink}`, {
+          style: { backgroundColor: "white", color: "black" },
+        });
+      }
+    } catch (error) {
+      console.error("Error sharing the quiz:", error);
+      toast.error("Failed to share the quiz. Please try again.", {
+        style: { backgroundColor: "white", color: "black" },
+      });
+    }
+  };
+
   const maxChars = 20;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -122,33 +149,34 @@ const QuizBanner = ({
           />
         </div>
       )}
-      {1 && (
-        <div
-          //className="fixed inset-0 z-30 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
-          className={`fixed inset-0 z-40 flex items-center justify-center transition-all duration-1000 backdrop-blur-sm ${
-            show
-              ? "opacity-100 pointer-events-auto scale-100"
-              : "opacity-0 pointer-events-none scale-90"
-          }`}
-          onClick={() => setShow(false)}
-        >
-          <ConfirmPopup
-            text={`Do you want to delete the quiz : '${truncateTitle(
-              title,
-              maxChars
-            )} '`}
-            setShow={setShow}
-            handleConfirm={deleteQuiz}
-            yesColor="red"
-            noColor="blue"
-          />
-        </div>
-      )}
+
+      
       <div
-        className="bg-gradient-to-r from-indigo-800 to-purple-800 shadow-lg rounded-lg lg:p-3 md:p-6 border border-white backdrop-blur-sm max-w-3xl mx-auto my-5 sm:my-4 md:my-5 w-11/12 lg:w-5/6"
+        //className="fixed inset-0 z-30 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
+        className={`fixed inset-0 z-40 flex items-center justify-center transition-all duration-1000 backdrop-blur-sm ${
+          show
+            ? "opacity-100 pointer-events-auto scale-100"
+            : "opacity-0 pointer-events-none scale-90"
+        }`}
+        onClick={() => setShow(false)}
+      >
+        <ConfirmPopup
+          text={`Do you want to delete the quiz : '${truncateTitle(
+            title,
+            maxChars
+          )} '`}
+          setShow={setShow}
+          handleConfirm={deleteQuiz}
+          yesColor="red"
+          noColor="blue"
+        />
+      </div>
+      
+      <div
+        className="bg-gradient-to-r from-indigo-800 to-purple-800 shadow-lg rounded-lg lg:p-7 md:p-6 border border-white backdrop-blur-sm max-w-3xl mx-auto my-5 sm:my-4 md:my-5 w-11/12 lg:w-full"
         onClick={handleNavigate}
       >
-        <div className="flex flex-col sm:flex-row justify-between items-center text-white text-3xl gap-3 sm:gap-4 md:px-4 py-2 bg">
+        <div className="flex flex-col sm:flex-row justify-between items-center text-white text-3xl gap-3 sm:gap-4 md:px-4 py-2 ">
           <div
             className="absolute right-2 top-2 text-red-200 hover:scale-90 active:scale-125"
             onClick={(event) => {
@@ -157,6 +185,16 @@ const QuizBanner = ({
             }}
           >
             <MdDelete size={28} />
+          </div>
+
+          <div
+            className="absolute right-2 bottom-2 text-red-200 hover:scale-90 active:scale-125"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleShare(id);
+            }}
+          >
+            <FaShareSquare size={23} />
           </div>
 
           <h1
@@ -181,6 +219,17 @@ const QuizBanner = ({
 
         <dialog id={`modal_${id}`} className="modal">
           <div className="modal-box bg-purple-900">
+            
+          <div
+            className="absolute right-4 top-4 text-red-200 hover:scale-90 active:scale-125"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleShare(id)
+            }}
+          >
+            <FaShareSquare size={28} />
+          </div>
+
             <h3 className="font-bold text-lg">Topic</h3>
             <p className="py-4">{title}</p>
             <InfoComponent show={true} />

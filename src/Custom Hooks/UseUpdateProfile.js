@@ -2,9 +2,12 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { backendServer } from "../backendServer";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AppContext } from "../Context/AppContextProvider";
 
 const useUpdateProfile = (setIsModalOpen) => {
   const navigate = useNavigate();
+  const { state, setState } = useContext(AppContext);
 
   const {
     mutate: updateProfile,
@@ -47,7 +50,7 @@ const useUpdateProfile = (setIsModalOpen) => {
             color: "black",
           },
         });
-        setIsModalOpen(false)
+        setIsModalOpen(false);
         navigate("/verify-email", {
           state: {
             newEmail: variables.email,
@@ -60,6 +63,12 @@ const useUpdateProfile = (setIsModalOpen) => {
             color: "black",
           },
         });
+      }
+      if (variables.isbioChanged) {
+        setState((prevState) => ({
+          ...prevState, // Retain other state properties
+          bio: variables.bio, // Update the bio
+        }));
       }
     },
   });

@@ -28,6 +28,7 @@ import ProfileImgUploadHook from "./Custom Hooks/ProfileImgUploadHook";
 import { AppContext } from "./Context/AppContextProvider";
 import useUpdateProfile from "./Custom Hooks/UseUpdateProfile";
 import EmailVerifyPage from "./Pages/EmailVerifyPage/EmailVerifyPage";
+import ProfileModal from "./Pages/popup/ProfileModal";
 
 export function App() {
   const location = useLocation();
@@ -35,7 +36,7 @@ export function App() {
   const profileImgRef = useRef(null);
 
   const triggerFileUpload = (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     if (profileImgRef.current) {
       profileImgRef.current.click();
     }
@@ -134,7 +135,7 @@ export function App() {
   };
 
   const handleUpdateProfileImg = (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     //mutateFn:
     HandleProfileImgUpload();
     setShow(false);
@@ -200,7 +201,7 @@ export function App() {
             <form
               className="flex flex-col gap-4"
               onSubmit={(e) => {
-                e.preventDefault();
+                e?.preventDefault();
 
                 handleUpdateProfile();
               }}
@@ -299,6 +300,8 @@ export function App() {
         accept="image/*"
         onChange={handleImgChange}
       />
+
+      
       <Routes>
         <Route path="/" element={<InputPage />} />
         <Route path="*" element={<InputPage />} />
