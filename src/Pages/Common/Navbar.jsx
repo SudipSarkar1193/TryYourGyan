@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { FaHistory } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
 import { FaEdit } from "react-icons/fa";
+import { FaUserAlt } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +11,7 @@ import { toast } from "react-toastify";
 import { clearToken } from "../../utils/tokenManagement";
 import { AppContext } from "../../Context/AppContextProvider";
 
-const Navbar = ({ isOpen, setIsOpen, setIsModalOpen }) => {
+const Navbar = ({ isOpen, setIsOpen, setIsModalOpen, handleOpenModal }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { setState } = useContext(AppContext);
@@ -42,7 +43,7 @@ const Navbar = ({ isOpen, setIsOpen, setIsModalOpen }) => {
       className={`fixed  right-0 lg:w-72 w-56 bg-black h-[60%] p-5 shadow-purple-400/50 shadow-xl rounded-md z-50
         ${isOpen ? "animate-slideIn" : "animate-slideOut"}`}
     >
-      <ul className="w-full h-full flex flex-col items-start lg:items-center justify-center gap-5 ">
+      <ul className="w-full h-full flex flex-col items-start lg:items-center justify-center gap-5">
         {/* History */}
         <li className="flex-center cursor-pointer p-16-semibold w-full whitespace-nowrap">
           <button
@@ -54,6 +55,19 @@ const Navbar = ({ isOpen, setIsOpen, setIsModalOpen }) => {
           >
             <FaHistory size={25} />
             History
+          </button>
+        </li>
+
+        <li className="flex-center cursor-pointer p-16-semibold w-full whitespace-nowrap">
+          <button
+            className="p-16-semibold flex size-full gap-4 p-4 group font-semibold rounded-full bg-cover transition-all ease-linear text-white hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-600 hover:text-black focus:bg-gradient-to-r focus:from-purple-400 focus:to-purple-600 focus:text-black"
+            onClick={() => {
+              setIsOpen(false);
+              handleOpenModal();
+            }}
+          >
+            <FaUserAlt size={27} />
+            Profile
           </button>
         </li>
 

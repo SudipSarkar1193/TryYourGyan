@@ -18,7 +18,9 @@ export const Header = ({
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleOpenModal = () => setIsModalVisible(true);
+  function handleOpenModal() {
+    setIsModalVisible(true);
+  }
   const handleCloseModal = () => setIsModalVisible(false);
 
   const navigate = useNavigate();
@@ -137,6 +139,7 @@ export const Header = ({
         isOpen={openNavbar}
         setIsOpen={setOpenNavbar}
         setIsModalOpen={setIsModalOpen}
+        handleOpenModal={handleOpenModal}
       />
     </>
   );
