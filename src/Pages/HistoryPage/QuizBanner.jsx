@@ -34,7 +34,7 @@ const QuizBanner = ({
     try {
       const shareableLink = `https://try-your-gyan.vercel.app/questions-history/${quizId}`;
 
-      const shareableText = `Check out this quiz on '${title}', I just tried !😄\n${shareableLink}`;
+      const shareableText = `Check out this quiz on '${title}'.\nI just tried 😄\n\n${shareableLink}`;
 
       if (navigator.share) {
         await navigator.share({
