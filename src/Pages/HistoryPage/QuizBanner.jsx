@@ -35,12 +35,11 @@ const QuizBanner = ({
       const shareableLink = `https://try-your-gyan.vercel.app/questions-history/${quizId}`;
 
       const shareableText = `Check out this quiz I just tried ! ${shareableLink}`;
-  
+
       if (navigator.share) {
         await navigator.share({
-          title:shareableText,
+          title: shareableText,
           text: shareableText, // Combine text and link
-          url: shareableLink,
         });
       } else {
         await navigator.clipboard.writeText(shareableText);
@@ -49,7 +48,10 @@ const QuizBanner = ({
         });
       }
     } catch (error) {
-      if (error.name === "AbortError" || error.message.includes("The user aborted a request")) {
+      if (
+        error.name === "AbortError" ||
+        error.message.includes("The user aborted a request")
+      ) {
         console.warn("Share action was canceled by the user.");
       } else {
         console.error("Error sharing the quiz:", error);
@@ -59,7 +61,6 @@ const QuizBanner = ({
       }
     }
   };
-  
 
   const maxChars = 20;
   const navigate = useNavigate();
@@ -155,7 +156,6 @@ const QuizBanner = ({
         </div>
       )}
 
-      
       <div
         //className="fixed inset-0 z-30 flex items-center justify-center bg-opacity-50 backdrop-blur-sm"
         className={`fixed inset-0 z-40 flex items-center justify-center transition-all duration-1000 backdrop-blur-sm ${
@@ -176,7 +176,7 @@ const QuizBanner = ({
           noColor="blue"
         />
       </div>
-      
+
       <div
         className="bg-gradient-to-r from-indigo-800 to-purple-800 shadow-lg rounded-lg lg:p-7 md:p-6 border border-white backdrop-blur-sm max-w-3xl mx-auto my-5 sm:my-4 md:my-5 w-11/12 lg:w-full"
         onClick={handleNavigate}
@@ -224,16 +224,15 @@ const QuizBanner = ({
 
         <dialog id={`modal_${id}`} className="modal">
           <div className="modal-box bg-purple-900">
-            
-          <div
-            className="absolute right-4 top-4 text-red-200 hover:scale-90 active:scale-125"
-            onClick={(event) => {
-              event.stopPropagation();
-              handleShare(id)
-            }}
-          >
-            <FaShareSquare size={28} />
-          </div>
+            <div
+              className="absolute right-4 top-4 text-red-200 hover:scale-90 active:scale-125"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleShare(id);
+              }}
+            >
+              <FaShareSquare size={28} />
+            </div>
 
             <h3 className="font-bold text-lg">Topic</h3>
             <p className="py-4">{title}</p>
