@@ -178,7 +178,7 @@ const QuizBanner = ({
       </div>
 
       <div
-        className="bg-gradient-to-r from-indigo-800 to-purple-800 shadow-lg rounded-lg lg:p-7 md:p-6 border border-white backdrop-blur-sm max-w-3xl mx-auto my-5 sm:my-4 md:my-5 w-11/12 lg:w-full"
+        className="bg-gradient-to-r from-indigo-800 to-purple-800 shadow-lg rounded-lg lg:p-7 p-6 border border-white backdrop-blur-sm max-w-3xl mx-auto my-5 sm:my-4 md:my-5 w-11/12 lg:w-full"
         onClick={handleNavigate}
       >
         <div className="flex flex-col sm:flex-row justify-between items-center text-white text-3xl gap-3 sm:gap-4 md:px-4 py-2 ">
@@ -204,7 +204,7 @@ const QuizBanner = ({
 
           <h1
             onClick={openModal} // Open modal when clicked
-            className="text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-wide cursor-pointer"
+            className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold italic tracking-wide cursor-pointer"
             title="Click to view full title"
           >
             {truncateTitle(title, maxChars)}
@@ -235,7 +235,7 @@ const QuizBanner = ({
             </div>
 
             <h3 className="font-bold text-lg">Topic</h3>
-            <p className="py-4">{title}</p>
+            <p className="py-4 italic font-semibold">{title}</p>
             <InfoComponent show={true} />
             <div className="modal-action">
               <form method="dialog" onClick={handleModalClose}>
