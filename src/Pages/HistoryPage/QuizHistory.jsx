@@ -77,7 +77,7 @@ const QuizHistory = () => {
             <div className="text-2xl font-bold italic text-center mt-28 lg:mt-40">
               {`Quizzes are being loaded for you,`}
               <br />
-              {`${localStorage.getItem("username")} 😄`}
+              {` ${localStorage.getItem("username") || ""} 😄`}
             </div>
             <div className="text-2xl font-bold italic text-center">
               <div className="w-full flex justify-center ">

@@ -89,7 +89,7 @@ export const Header = ({
           )}
 
           <div className="absolute -bottom-6 text-sm font-medium text-center">
-            {state?.authUser?.data.username || "Guest"}
+            {state?.username || "Guest"}
           </div>
         </div>
 

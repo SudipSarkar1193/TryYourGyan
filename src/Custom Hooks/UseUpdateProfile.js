@@ -70,6 +70,14 @@ const useUpdateProfile = (setIsModalOpen) => {
           bio: variables.bio, // Update the bio
         }));
       }
+
+      if (variables.isUsernameChanged) {
+        localStorage.setItem("username", variables.username);
+        setState((prevState) => ({
+          ...prevState, // Retain other state properties
+          username: variables.username, // Update the bio
+        }));
+      }
     },
   });
 

@@ -301,7 +301,6 @@ export function App() {
         onChange={handleImgChange}
       />
 
-      
       <Routes>
         <Route path="/" element={<InputPage />} />
         <Route path="*" element={<InputPage />} />
