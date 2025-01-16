@@ -34,27 +34,32 @@ const QuizBanner = ({
     try {
       const shareableLink = `https://try-your-gyan.vercel.app/questions-history/${quizId}`;
 
+      const shareableText = `Check out this quiz I just tried ! ${shareableLink}`;
+  
       if (navigator.share) {
-        // Use the Web Share API if available
         await navigator.share({
-          title: "Check out this quiz I just tried!",
+          title:shareableText,
+          text: shareableText, // Combine text and link
           url: shareableLink,
         });
-        
       } else {
-        // Fallback to copying the link to clipboard
-        await navigator.clipboard.writeText(shareableLink);
-        toast.error(`Link copied to clipboard: ${shareableLink}`, {
+        await navigator.clipboard.writeText(shareableText);
+        toast.success(`Link copied to clipboard: ${shareableText}`, {
           style: { backgroundColor: "white", color: "black" },
         });
       }
     } catch (error) {
-      console.error("Error sharing the quiz:", error);
-      toast.error("Failed to share the quiz. Please try again.", {
-        style: { backgroundColor: "white", color: "black" },
-      });
+      if (error.name === "AbortError" || error.message.includes("The user aborted a request")) {
+        console.warn("Share action was canceled by the user.");
+      } else {
+        console.error("Error sharing the quiz:", error);
+        toast.error("Failed to share the quiz. Please try again.", {
+          style: { backgroundColor: "white", color: "black" },
+        });
+      }
     }
   };
+  
 
   const maxChars = 20;
   const navigate = useNavigate();
