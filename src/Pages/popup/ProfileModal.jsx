@@ -25,20 +25,20 @@ const ProfileModal = ({ isVisible, onClose, imageUrl, bio ,onProfileImgClick}) =
           <RxCross1 size={28} />
         </button>
         {/* Image Section */}
-        <div className="relative w-full mt-4 h-auto bg-gray-200 rounded-lg overflow-clip shadow-xl">
+        <div className="relative w-full mt-4 h-auto bg-gray-200 rounded-lg overflow-clip shadow-md shadow-black">
           <img
             src={imageUrl}
             alt="Profile"
             className="w-full h-full object-cover"
           />
           <div
-            className="absolute bottom-1 right-1 bg-violet-600 rounded-full p-1 active:opacity-60 hover:opacity-60 cursor-pointer z-50"
+            className="absolute bottom-1 right-1 bg-gray-900 rounded-full p-2 active:scale-150 hover:opacity-80 hover:scale-125 cursor-pointer z-50 text-white shadow-xl ring-2 ring-purple-500"
             onClick={(e) => {
               e.stopPropagation();
               onProfileImgClick();
             }}
           >
-            <MdModeEditOutline size={25} />
+            <MdModeEditOutline size={19} />
           </div>
         </div>
 
