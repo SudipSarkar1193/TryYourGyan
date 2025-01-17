@@ -2,7 +2,13 @@ import React from "react";
 import { RxCross1 } from "react-icons/rx";
 import { MdModeEditOutline } from "react-icons/md";
 
-const ProfileModal = ({ isVisible, onClose, imageUrl, bio ,onProfileImgClick}) => {
+const ProfileModal = ({
+  isVisible,
+  onClose,
+  imageUrl,
+  bio,
+  onProfileImgClick,
+}) => {
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-40 transition-all duration-700 ease-in-out 
@@ -14,7 +20,7 @@ const ProfileModal = ({ isVisible, onClose, imageUrl, bio ,onProfileImgClick}) =
         bg-black bg-opacity-50`}
     >
       <div
-        className={`relative bg-gray-700 w-80 h-auto p-6 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out
+        className={`relative bg-black w-80 h-auto p-6 rounded-lg shadow-purple-400/50 shadow-xl transform transition-all duration-300 ease-in-out
         ${isVisible} ? "scale-100" : "scale-95"`}
       >
         {/* Close Button */}
