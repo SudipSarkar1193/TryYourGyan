@@ -150,7 +150,7 @@ const QuizPage = () => {
         )}
 
         {/* Conditionally render the submit button */}
-        <button
+        {/* <button
           onClick={calculateScore}
           disabled={loading}
           className={`mt-5 px-4 py-2 ${
@@ -158,7 +158,7 @@ const QuizPage = () => {
           } text-white rounded`}
         >
           {loading ? "Submitting..." : "Submit"}
-        </button>
+        </button> */}
       </div>
     </>
   );

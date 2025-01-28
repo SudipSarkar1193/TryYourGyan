@@ -39,7 +39,11 @@ const RegisterForm = () => {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ username, email, password }),
+          body: JSON.stringify({
+            username: username.trim(),
+            email: email.trim(),
+            password: password.trim(),
+          }),
         });
 
         if (!res.ok) {
@@ -65,7 +69,7 @@ const RegisterForm = () => {
 
         const resData = await res.json();
 
-        return { resData, username };
+        return { resData, username: username.trim() };
       } catch (error) {
         throw error;
       }
@@ -104,7 +108,7 @@ const RegisterForm = () => {
 
   return (
     <>
-      {(isLoading || isPending ) && (
+      {(isLoading || isPending) && (
         <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur-sm">
           <PopupLoader
             text={"This could take a moment"}

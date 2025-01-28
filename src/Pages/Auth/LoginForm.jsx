@@ -71,7 +71,7 @@ const LoginForm = () => {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ identifier: usernameOrEmail, password }),
+        body: JSON.stringify({ identifier: usernameOrEmail.trim(), password:password.trim() }),
       });
 
       if (!res.ok) {
