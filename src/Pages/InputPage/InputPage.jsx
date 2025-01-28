@@ -219,7 +219,7 @@ const InputPage = () => {
                   id="number_of_question"
                   className="w-10/12"
                   min="5"
-                  max="25"
+                  max="20"
                   value={value}
                   onChange={handleRangeInputChange}
                 />
