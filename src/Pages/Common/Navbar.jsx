@@ -5,7 +5,7 @@ import { FaEdit } from "react-icons/fa";
 import { FaUserAlt } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-
+import { IoHome } from "react-icons/io5";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { clearToken } from "../../utils/tokenManagement";
@@ -40,10 +40,24 @@ const Navbar = ({ isOpen, setIsOpen, setIsModalOpen, handleOpenModal }) => {
 
   return (
     <div
-      className={`fixed  right-0 lg:w-72 w-56 bg-black h-[60%] p-5 shadow-purple-400/50 shadow-xl rounded-md z-50
+      className={`fixed  top-[15%] right-0 lg:w-72 w-56 bg-black h-[67%] p-5 shadow-purple-400/50 shadow-xl rounded-md z-50
         ${isOpen ? "animate-slideIn" : "animate-slideOut"}`}
     >
       <ul className="w-full h-full flex flex-col items-start lg:items-center justify-center gap-5">
+        
+      <li className="flex-center cursor-pointer p-16-semibold w-full whitespace-nowrap">
+          <button
+            className="p-16-semibold flex size-full gap-4 p-4 group font-semibold rounded-full bg-cover transition-all ease-linear text-white hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-600 hover:text-black focus:bg-gradient-to-r focus:from-purple-400 focus:to-purple-600 focus:text-black"
+            onClick={() => {
+              setIsOpen(false);
+              navigate("/");
+            }}
+          >
+            < IoHome size={25} />
+            Home
+          </button>
+        </li>
+
         {/* History */}
         <li className="flex-center cursor-pointer p-16-semibold w-full whitespace-nowrap">
           <button
