@@ -142,7 +142,7 @@ export function App() {
   };
 
   return (
-    <div className="app h-svh w-svw ">
+    <div className="app h-svh w-svw">
       {/* Conditionally render the Header based on the route */}
       <ToastContainer
         limit={1}
