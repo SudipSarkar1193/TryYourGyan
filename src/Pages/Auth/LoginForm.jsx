@@ -71,7 +71,10 @@ const LoginForm = () => {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ identifier: usernameOrEmail.trim(), password:password.trim() }),
+        body: JSON.stringify({
+          identifier: usernameOrEmail.trim(),
+          password: password.trim(),
+        }),
       });
 
       if (!res.ok) {
@@ -134,6 +137,7 @@ const LoginForm = () => {
     isPending: isGooglePending,
   } = useMutation({
     mutationFn: async ({ userInfo, token }) => {
+      console.log("DEBUG 2 : \n userInfo", userInfo);
       const response = await fetch(`${backendServer}/api/users/auth/google`, {
         method: "POST",
         headers: {
@@ -230,6 +234,8 @@ const LoginForm = () => {
             isNewUser,
           }
         : {};
+
+      console.log("DEBUG : \n userInfo", userInfo);
 
       const token =
         (await result?._tokenResponse?.idToken) || (await user?.getIdToken());
