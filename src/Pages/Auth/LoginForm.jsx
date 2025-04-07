@@ -19,6 +19,8 @@ const LoginForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  console.log("HI I M DEBUGGER");
+
   const [isResending, setIsResending] = useState(false); // State for resend logic
 
   const navigate = useNavigate();
