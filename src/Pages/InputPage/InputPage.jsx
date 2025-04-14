@@ -40,28 +40,23 @@ const InputPage = () => {
           credentials: "include",
         });
 
+        console.log("res : \n",res)
+
         if (!res.ok) {
           const errorText = await res.text();
           const errorJsonString = errorText.replace("Error: ", "");
           const errorMessage = JSON.parse(errorJsonString);
+          
           throw errorMessage;
         }
 
         const jsonRes = await res.json();
-        let jsonString =
-          jsonRes?.data?.Candidates[0]?.Content?.Parts[0]?.trim();
+        console.log("jsonRes.data ",jsonRes)
+        console.log("jsonRes.data : \n",jsonRes.data)
+        console.log("type : \n",typeof jsonRes.data)
+        
 
-        if (jsonString?.endsWith("}]}")) {
-          jsonString = jsonString.slice(0, jsonString.length - 1) + "]";
-        }
-
-        if (jsonString?.endsWith("}]}]")) {
-          jsonString =
-            jsonString.slice(0, jsonString.length - 2) +
-            jsonString.slice(jsonString.length - 1);
-        }
-
-        const data = JSON.parse(jsonString);
+        const data = jsonRes.data;
         setLoading(false);
         return data;
       } catch (error) {
@@ -74,10 +69,10 @@ const InputPage = () => {
     },
     onSuccess: (data) => {
       if (data) {
-        if (data[0]?.ok) {
+        if (data?.ok) {
           navigate("/quiz", {
             state: {
-              quizData: data[1],
+              quizData: data?.data,
               topic,
               level: difficulty,
               totalQuestions: value,
