@@ -51,7 +51,7 @@ const InputPage = () => {
         }
 
         const jsonRes = await res.json();
-        console.log("jsonRes.data ",jsonRes)
+        console.log("jsonRes ",jsonRes)
         console.log("jsonRes.data : \n",jsonRes.data)
         console.log("type : \n",typeof jsonRes.data)
         
@@ -69,10 +69,10 @@ const InputPage = () => {
     },
     onSuccess: (data) => {
       if (data) {
-        if (data?.ok) {
+        if (data?.ok || 1) {
           navigate("/quiz", {
             state: {
-              quizData: data?.data,
+              quizData: data,
               topic,
               level: difficulty,
               totalQuestions: value,
